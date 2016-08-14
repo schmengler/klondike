@@ -2,12 +2,16 @@
 namespace Klondike\Element;
 
 
-class DsPile implements Pile
+final class DsPile implements Pile
 {
 	/**
 	 * @var \Ds\Deque
 	 */
 	private $cards;
+	public static function fromSingleCards(Card ...$cards)
+	{
+		return new self(new DsCards(...$cards));
+	}
 	public function __construct(Cards $cards)
 	{
 		$this->cards = new \Ds\Deque($cards);
@@ -19,12 +23,6 @@ class DsPile implements Pile
 	 */
 	public function take(int $numberOfCards) : Cards
 	{
-		//TODO validation decorator
-		if ($numberOfCards > $this->cards->count()) {
-			throw new InvalidPileOperationException(sprintf(
-				'Cannot take %d cards from pile of %d cards', $numberOfCards, $this->cards->count()
-			));
-		}
 		return new DsCards(...$this->cards->slice(-$numberOfCards));
 	}
 	/**
@@ -34,11 +32,6 @@ class DsPile implements Pile
 	 */
 	public function drop(int $numberOfCards) : Pile
 	{
-		if ($numberOfCards > $this->cards->count()) {
-			throw new InvalidPileOperationException(sprintf(
-				'Cannot drop %d cards from pile of %d cards', $numberOfCards, $this->cards->count()
-			));
-		}
 		return new self(new DsCards(...$this->cards->slice(0, -$numberOfCards)));
 	}
 	/**

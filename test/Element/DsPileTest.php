@@ -13,6 +13,21 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	 * @var DsPile
 	 */
 	private $pile;
+	private function createPileWithCards(Card ...$cards)
+	{
+		$this->pile = new PileValidation(DsPile::fromSingleCards(...$cards));
+	}
+	public function testInstantiation()
+	{
+		$cards = [
+			new FakeCard('card-1'),
+			new FakeCard('card-2'),
+		];
+		$this->assertEquals(
+			$cards,
+			\iterator_to_array(DsPile::fromSingleCards(...$cards)->takeAll())
+		);
+	}
 	public function testTake()
 	{
 		$cards = [
@@ -20,7 +35,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('yyy'),
 			new FakeCard('zzz')
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertCount(1, $this->pile->take(1));
 		$this->assertEquals([$cards[2]], \iterator_to_array($this->pile->take(1)));
@@ -38,7 +53,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('first-of-all'),
 			new FakeCard('second-of-all'),
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertCount(2, $this->pile->takeAll());
 		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()));
@@ -51,7 +66,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('bbb'),
 			new FakeCard('ccc'),
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals([$cards[0], $cards[1]], \iterator_to_array($this->pile->drop(1)->takeAll()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
@@ -66,7 +81,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('foo'),
 			new FakeCard('bar'),
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals([], \iterator_to_array($this->pile->dropAll()->takeAll()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
@@ -82,7 +97,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('meow'),
 			new FakeCard('quack'),
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals(\array_merge($cards, $cardsToAdd),
 				\iterator_to_array($this->pile->add(new DsCards(...$cardsToAdd))->takeAll()));
@@ -95,12 +110,18 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 			new FakeCard('bottom-secret', CardVisibility::faceDown()),
 			new FakeCard('top-secret', CardVisibility::faceDown()),
 		];
-		$this->pile = new DsPile(new DsCards(...$cards));
+		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals([
 				new FakeCard('bottom-secret', CardVisibility::faceDown()),
 				new FakeCard('top-secret', CardVisibility::faceUp()),
 		], \iterator_to_array($this->pile->turnTopCard()->takeAll()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
+	}
+	public function testTurnTopCardOnEmptyPile()
+	{
+		$this->setExpectedException(InvalidPileOperationException::class, 'Cannot turn top card of empty pile');
+		$this->createPileWithCards();
+		$this->pile->turnTopCard();
 	}
 }

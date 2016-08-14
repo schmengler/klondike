@@ -3,6 +3,9 @@ namespace Klondike\Element;
 
 use Klondike\Value\CardID;
 use Klondike\Value\CardVisibility;
+/**
+ * Fake card without value, for testing
+ */
 final class FakeCard implements Card
 {
 	private $cardId;
