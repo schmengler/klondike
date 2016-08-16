@@ -2,7 +2,8 @@
 namespace Klondike\Move\Event;
 
 use Klondike\Move\Event;
-interface PileTurnedOver extends Event
+
+interface EventBuilder
 {
-	
+	public function create() : Event;
 }

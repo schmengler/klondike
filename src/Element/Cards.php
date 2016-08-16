@@ -1,6 +1,9 @@
 <?php
 namespace Klondike\Element;
 
+/**
+ * Cards collection
+ */
 interface Cards extends \Iterator
 {
 	public function current() : Card;

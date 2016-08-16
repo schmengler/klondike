@@ -3,7 +3,7 @@ namespace Klondike\Move\Event;
 
 use Klondike\Move\Event;
 
-class CardsMoved implements Event
+interface CardsMoved extends Event
 {
 	
 }
