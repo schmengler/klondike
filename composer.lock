@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f37c0313e2dba5d058b10b553ccc8f9d",
-    "content-hash": "c41e0426ad20de1dbfa3d5a66b7db49c",
+    "hash": "dbad908cfe924d03701a1fdeb57bf9bc",
+    "content-hash": "21eb94d865494c54674c544846bf8122",
     "packages": [
         {
             "name": "dusank/knapsack",
