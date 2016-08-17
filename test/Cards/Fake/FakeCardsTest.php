@@ -21,7 +21,6 @@ class FakeCardsTest extends \PHPUnit_Framework_TestCase
 		$cards = FakeCards::fromUuids('id-1', 'id-2', 'id-3');
 		$this->assertEquals($expectedCards, \iterator_to_array($cards->reverse()));
 	}
-
     /**
      * @dataProvider dataSlice
      */

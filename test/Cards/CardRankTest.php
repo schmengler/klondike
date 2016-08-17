@@ -6,6 +6,12 @@ namespace SSE\Cards;
  */
 class CardRankTest extends \PHPUnit_Framework_TestCase
 {
+    public function testEquality()
+    {
+        $this->assertTrue(CardRank::ace()->equals(CardRank::ace()));
+        $this->assertTrue(CardRank::number(2)->equals(CardRank::number(2)));
+        $this->assertFalse(CardRank::number(2)->equals(CardRank::number(3)));
+    }
     /**
      * @dataProvider dataStringRepresentation
      * @param $expectedString

@@ -20,6 +20,12 @@ class DsCardsTest extends \PHPUnit_Framework_TestCase
 		$this->cards = DsCards::fromCards(...$cards);
 		$this->assertEquals($cards, \iterator_to_array($this->cards));
 	}
+	public function testCount()
+    {
+        $cards = [FakeCard::fromUuid('oans'), FakeCard::fromUuid('zwoa')];
+        $this->cards = DsCards::fromCards(...$cards);
+        $this->assertEquals(\count($cards), $this->cards->count());
+    }
 	public function testReverse()
 	{
 		$cards = [FakeCard::fromUuid('aaa'), FakeCard::fromUuid('bbb')];

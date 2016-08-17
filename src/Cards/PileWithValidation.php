@@ -13,8 +13,6 @@ final class PileWithValidation implements Pile
 	}
 	/**
 	 * Return $numberOfCards cards from top
-	 *
-	 * @param int $numberOfCards
 	 */
 	public function top(int $numberOfCards) : Cards
 	{
@@ -35,8 +33,6 @@ final class PileWithValidation implements Pile
 	}
 	/**
 	 * Return pile without top $numberOfCards cards
-	 *
-	 * @param int $numberOfCards
 	 */
 	public function drop(int $numberOfCards) : Pile
 	{
@@ -57,8 +53,6 @@ final class PileWithValidation implements Pile
 	}
 	/**
 	 * Return pile with $cards on top
-	 *
-	 * @param Cards $cards
 	 */
 	public function add(Cards $cards) : Pile
 	{

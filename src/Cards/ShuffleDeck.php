@@ -42,6 +42,6 @@ final class ShuffleDeck implements Deck
 	 */
 	public function permutation(int ...$p) : Deck
 	{
-		return $this->deck->permutation($p);
+		return $this->deck->permutation(...$p);
 	}
 }

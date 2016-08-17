@@ -28,6 +28,7 @@ class FakeCardTest extends \PHPUnit_Framework_TestCase
 	public function testTurnOver()
 	{
 		$card = FakeCard::fromUuid('yyy');
+        $this->assertEquals(CardVisibility::faceDown(), $card->visibility());
 		$this->assertEquals(FakeCard::fromUuid('yyy', CardVisibility::faceUp()), $card->turnOver());
 	}
 }
