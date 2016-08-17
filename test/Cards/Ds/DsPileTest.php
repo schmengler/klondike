@@ -4,8 +4,6 @@ namespace SSE\Cards\Ds;
 use SSE\Cards\Card;
 use SSE\Cards\CardVisibility;
 use SSE\Cards\Fake\FakeCard;
-use SSE\Cards\InvalidPileOperation;
-use SSE\Cards\PileWithValidation;
 
 /**
  * @covers DsPile
@@ -18,7 +16,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	private $pile;
 	private function createPileWithCards(Card ...$cards)
 	{
-		$this->pile = new PileWithValidation(DsPile::fromSingleCards(...$cards));
+		$this->pile = DsPile::fromSingleCards(...$cards);
 	}
 	public function testInstantiation()
 	{
@@ -45,9 +43,6 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 
 		$this->assertCount(3, $this->pile->top(3));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->top(3)));
-		
-		$this->setExpectedException(InvalidPileOperation::class, 'Cannot take 4 cards from pile of 3 cards');
-		$this->pile->top(4);
 	}
 	
 	public function testTakeAll()
@@ -73,9 +68,6 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		
 		$this->assertEquals([$cards[0], $cards[1]], \iterator_to_array($this->pile->drop(1)->all()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
-
-		$this->setExpectedException(InvalidPileOperation::class, 'Cannot drop 4 cards from pile of 3 cards');
-		$this->pile->drop(4);
 	}
 	
 	public function testDropAll()
@@ -120,11 +112,5 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 				FakeCard::fromUuid('top-secret', CardVisibility::faceUp()),
 		], \iterator_to_array($this->pile->turnTopCard()->all()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
-	}
-	public function testTurnTopCardOnEmptyPile()
-	{
-		$this->setExpectedException(InvalidPileOperation::class, 'Cannot turn top card of empty pile');
-		$this->createPileWithCards();
-		$this->pile->turnTopCard();
 	}
 }
