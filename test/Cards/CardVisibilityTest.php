@@ -1,6 +1,9 @@
 <?php
 namespace SSE\Cards;
 
+/**
+ * @covers CardVisibility
+ */
 class CardVisibilityTest extends \PHPUnit_Framework_TestCase
 {
 	public function testEquality()

@@ -18,7 +18,33 @@ final class CardRank
 	{
 		$this->value = $rank;
 	}
-	public function equals(CardRank $other)
+
+    public static function ace() : CardRank
+    {
+        return new self(self::ACE);
+    }
+
+    public static function jack() : CardRank
+    {
+        return new self(self::JACK);
+    }
+
+    public static function queen() : CardRank
+    {
+        return new self(self::QUEEN);
+    }
+
+    public static function king() : CardRank
+    {
+        return new self(self::KING);
+    }
+
+    public static function number($number) : CardRank
+    {
+        return new self($number);
+    }
+
+    public function equals(CardRank $other)
 	{
 		return $this->value === $other->value;
 	}

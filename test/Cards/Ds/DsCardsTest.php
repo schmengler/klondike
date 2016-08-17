@@ -12,25 +12,25 @@ class DsCardsTest extends \PHPUnit_Framework_TestCase
 	private $cards;
 	public function testIterator()
 	{
-		$cards = [new FakeCard('xxx'), new FakeCard('yyy')];
+		$cards = [FakeCard::fromUuid('xxx'), FakeCard::fromUuid('yyy')];
 		$this->cards = new DsCards(...$cards);
 		$this->assertEquals($cards, \iterator_to_array($this->cards));
 	}
 	public function testReverse()
 	{
-		$cards = [new FakeCard('aaa'), new FakeCard('bbb')];
+		$cards = [FakeCard::fromUuid('aaa'), FakeCard::fromUuid('bbb')];
 		$this->cards = new DsCards(...$cards);
 		$this->assertEquals(\array_reverse($cards), \iterator_to_array($this->cards->reverse()));
 	}
 	public function testTurnAll()
 	{
 		$cards = [
-			new FakeCard('hello'),
-			new FakeCard('world'),
+			FakeCard::fromUuid('hello'),
+			FakeCard::fromUuid('world'),
 		];
 		$turnedCards = [
-			new FakeCard('hello', CardVisibility::faceUp()),
-			new FakeCard('world', CardVisibility::faceUp()),
+			FakeCard::fromUuid('hello', CardVisibility::faceUp()),
+			FakeCard::fromUuid('world', CardVisibility::faceUp()),
 		];
 		$this->cards = new DsCards(...$cards);
 		$this->assertEquals($turnedCards, \iterator_to_array($this->cards->turnAll()));

@@ -35,19 +35,19 @@ final class CardSuit
 			self::CLUBS => '♣',
 		][$this->value];
 	}
-	public static function HEARTS() : CardSuit
+	public static function hearts() : CardSuit
 	{
 		return new self(self::HEARTS);
 	}
-	public static function SPADES() : CardSuit
+	public static function spades() : CardSuit
 	{
 		return new self(self::SPADES);
 	}
-	public static function CLUBS() : CardSuit
+	public static function clubs() : CardSuit
 	{
 		return new self(self::CLUBS);
 	}
-	public static function DIAMONDS() : CardSuit
+	public static function diamonds() : CardSuit
 	{
 		return new self(self::DIAMONDS);
 	}

@@ -3,19 +3,42 @@ namespace SSE\Cards\Fake;
 
 use SSE\Cards\CardID;
 use SSE\Cards\Card;
+use SSE\Cards\CardRank;
+use SSE\Cards\CardSuit;
+use SSE\Cards\CardValue;
 use SSE\Cards\CardVisibility;
 /**
- * Fake card without value, for testing
+ * Fake card with dummy values, for testing
  */
 final class FakeCard implements Card
 {
+    /**
+     * @var CardID
+     */
 	private $cardId;
+    /**
+     * @var CardVisibility
+     */
 	private $visibility;
-	public function __construct(string $uuid, CardVisibility $visibility = null)
+    /**
+     * @var CardValue
+     */
+    private $value;
+
+    public function __construct(CardID $cardId, CardVisibility $visibility, CardValue $value)
 	{
-		$this->cardId = new CardID($uuid);
-		$this->visibility = $visibility ?? CardVisibility::faceDown();
-	}
+		$this->cardId = $cardId;
+		$this->visibility = $visibility;
+        $this->value = $value;
+    }
+    public static function fromUuid(string $uuid, CardVisibility $visibility = null)
+    {
+        return new self(
+            new CardID($uuid),
+            $visibility ?? CardVisibility::faceDown(),
+            new CardValue(CardSuit::spades(), CardRank::ace())
+        );
+    }
 	public function turnOver() : Card
 	{
 		$clone = clone $this;

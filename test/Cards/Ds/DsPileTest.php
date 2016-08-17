@@ -20,8 +20,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testInstantiation()
 	{
 		$cards = [
-			new FakeCard('card-1'),
-			new FakeCard('card-2'),
+			FakeCard::fromUuid('card-1'),
+			FakeCard::fromUuid('card-2'),
 		];
 		$this->assertEquals(
 			$cards,
@@ -31,9 +31,9 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testTake()
 	{
 		$cards = [
-			new FakeCard('xxx'),
-			new FakeCard('yyy'),
-			new FakeCard('zzz')
+			FakeCard::fromUuid('xxx'),
+			FakeCard::fromUuid('yyy'),
+			FakeCard::fromUuid('zzz')
 		];
 		$this->createPileWithCards(...$cards);
 		
@@ -50,8 +50,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testTakeAll()
 	{
 		$cards = [
-			new FakeCard('first-of-all'),
-			new FakeCard('second-of-all'),
+			FakeCard::fromUuid('first-of-all'),
+			FakeCard::fromUuid('second-of-all'),
 		];
 		$this->createPileWithCards(...$cards);
 		
@@ -62,9 +62,9 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testDrop()
 	{
 		$cards = [
-			new FakeCard('aaa'),
-			new FakeCard('bbb'),
-			new FakeCard('ccc'),
+			FakeCard::fromUuid('aaa'),
+			FakeCard::fromUuid('bbb'),
+			FakeCard::fromUuid('ccc'),
 		];
 		$this->createPileWithCards(...$cards);
 		
@@ -78,8 +78,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testDropAll()
 	{
 		$cards = [
-			new FakeCard('foo'),
-			new FakeCard('bar'),
+			FakeCard::fromUuid('foo'),
+			FakeCard::fromUuid('bar'),
 		];
 		$this->createPileWithCards(...$cards);
 		
@@ -90,12 +90,12 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testAdd()
 	{
 		$cards = [
-			new FakeCard('moo'),
-			new FakeCard('woof'),
+			FakeCard::fromUuid('moo'),
+			FakeCard::fromUuid('woof'),
 		];
 		$cardsToAdd = [
-			new FakeCard('meow'),
-			new FakeCard('quack'),
+			FakeCard::fromUuid('meow'),
+			FakeCard::fromUuid('quack'),
 		];
 		$this->createPileWithCards(...$cards);
 		
@@ -107,14 +107,14 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	public function testTurnTopCard()
 	{
 		$cards = [
-			new FakeCard('bottom-secret', CardVisibility::faceDown()),
-			new FakeCard('top-secret', CardVisibility::faceDown()),
+			FakeCard::fromUuid('bottom-secret', CardVisibility::faceDown()),
+			FakeCard::fromUuid('top-secret', CardVisibility::faceDown()),
 		];
 		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals([
-				new FakeCard('bottom-secret', CardVisibility::faceDown()),
-				new FakeCard('top-secret', CardVisibility::faceUp()),
+				FakeCard::fromUuid('bottom-secret', CardVisibility::faceDown()),
+				FakeCard::fromUuid('top-secret', CardVisibility::faceUp()),
 		], \iterator_to_array($this->pile->turnTopCard()->takeAll()));
 		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
 	}

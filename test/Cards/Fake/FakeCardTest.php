@@ -3,28 +3,31 @@ namespace SSE\Cards\Fake;
 
 use SSE\Cards\CardVisibility;
 
+/**
+ * @covers FakeCard
+ */
 class FakeCardTest extends \PHPUnit_Framework_TestCase
 {
 	public function testEquality()
 	{
-		$this->assertEquals(new FakeCard('xxx'), new FakeCard('xxx'));
-		$this->assertNotEquals(new FakeCard('xxx'), new FakeCard('yyy'));
+		$this->assertEquals(FakeCard::fromUuid('xxx'), FakeCard::fromUuid('xxx'));
+		$this->assertNotEquals(FakeCard::fromUuid('xxx'), FakeCard::fromUuid('yyy'));
 	}
 	public function testEqualityWithVisibility()
 	{		
 		$this->assertEquals(
-				new FakeCard('xxx'),
-				new FakeCard('xxx', CardVisibility::faceDown()), 'default should be face down');
+				FakeCard::fromUuid('xxx'),
+				FakeCard::fromUuid('xxx', CardVisibility::faceDown()), 'default should be face down');
 		$this->assertEquals(
-				new FakeCard('xxx', CardVisibility::faceDown()),
-				new FakeCard('xxx', CardVisibility::faceDown()));
+				FakeCard::fromUuid('xxx', CardVisibility::faceDown()),
+				FakeCard::fromUuid('xxx', CardVisibility::faceDown()));
 		$this->assertNotEquals(
-				new FakeCard('xxx', CardVisibility::faceDown()),
-				new FakeCard('xxx', CardVisibility::faceUp()));
+				FakeCard::fromUuid('xxx', CardVisibility::faceDown()),
+				FakeCard::fromUuid('xxx', CardVisibility::faceUp()));
 	}
 	public function testTurnOver()
 	{
-		$card = new FakeCard('yyy');
-		$this->assertEquals(new FakeCard('yyy', CardVisibility::faceUp()), $card->turnOver());
+		$card = FakeCard::fromUuid('yyy');
+		$this->assertEquals(FakeCard::fromUuid('yyy', CardVisibility::faceUp()), $card->turnOver());
 	}
 }

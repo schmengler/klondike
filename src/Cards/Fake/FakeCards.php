@@ -7,7 +7,7 @@ use SSE\Cards\Card;
 use SSE\Cards\Cards;
 
 /**
- * Fake card without value, for testing
+ * Fake cards without value, for testing
  */
 final class FakeCards extends \ArrayIterator implements Cards
 {
@@ -20,7 +20,7 @@ final class FakeCards extends \ArrayIterator implements Cards
 		return new self(
 			Collection::from($uuids)
 				->map(function(string $uuid) {
-					return new FakeCard($uuid);
+					return FakeCard::fromUuid($uuid);
 				})
 		);
 	}
