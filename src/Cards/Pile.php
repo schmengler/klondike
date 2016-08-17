@@ -3,8 +3,6 @@ namespace SSE\Cards;
 
 /**
  * Immutable pile of cards
- * 
- * @todo reconsider "take" method naming
  */
 interface Pile
 {

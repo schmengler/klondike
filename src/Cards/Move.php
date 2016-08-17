@@ -1,8 +1,6 @@
 <?php
 namespace SSE\Cards;
 
-use SSE\Cards\MoveTarget;
-
 interface Move
 {
 	public function cards() : Cards;
