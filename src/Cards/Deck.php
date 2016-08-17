@@ -3,6 +3,10 @@ namespace SSE\Cards;
 
 interface Deck
 {
+    /**
+     * Return number of cards
+     */
+    public function size() : int;
 	/**
 	 * Convert to pile of cards to deal from it
 	 */

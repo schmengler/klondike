@@ -16,6 +16,12 @@ use SSE\Cards\InvalidPermutation;
 
 class DsDeckTest extends \PHPUnit_Framework_TestCase
 {
+    public function testSize()
+    {
+        $cardIds = ['un', 'dos', 'tres'];
+        $deck = $this->createDeckFromCardIds($cardIds);
+        $this->assertEquals(\count($cardIds), $deck->size());
+    }
     public function testPile()
     {
         $cardIds = ['one', 'two', 'three'];

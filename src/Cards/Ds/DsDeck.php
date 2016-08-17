@@ -40,8 +40,13 @@ final class DsDeck implements Deck
         $newDeck->cards = DsCards::fromCards(...$cardArray);
 		return $newDeck;
 	}
-	
-	public function pile() : Pile
+
+    public function size() : int
+    {
+        return $this->cards->count();
+    }
+
+    public function pile() : Pile
 	{
 		return $this->emptyPile->add($this->cards);
 	}

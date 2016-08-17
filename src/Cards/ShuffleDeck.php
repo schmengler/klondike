@@ -17,10 +17,19 @@ class ShuffleDeck implements Deck
 	 */
 	public function shuffle() : Deck
 	{
-		
+	    $p = \range(1, $this->deck->size());
+        \shuffle($p);
+		return new self(
+		    $this->deck->permutation(...$p)
+        );
 	}
 
-	/**
+    public function size() : int
+    {
+        return $this->deck->size();
+    }
+
+    /**
 	 * Convert to pile of cards to deal from it
 	 */
 	public function pile() : Pile
