@@ -4,7 +4,7 @@ namespace SSE\Cards;
 /**
  * Decorator to shuffle decks
  */
-class ShuffleDeck implements Deck
+final class ShuffleDeck implements Deck
 {
 	private $deck;
 	

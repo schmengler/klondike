@@ -12,7 +12,6 @@ namespace SSE\Cards\Ds;
 
 
 use SSE\Cards\Fake\FakeCards;
-use SSE\Cards\InvalidPermutation;
 
 class DsDeckTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,26 +60,6 @@ class DsDeckTest extends \PHPUnit_Framework_TestCase
                 ['id-1', 'id-2'],
                 [0, 0],
                 ['id-1', 'id-2'],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataInvalidPermutation
-     */
-    public function testPermutationFailsWithInconsistentSize($cardIds, $permutation)
-    {
-        $this->setExpectedExceptionRegExp(InvalidPermutation::class, '/Permutation array must have same size as deck. Expected: \d+ Given \d+/');
-        $this->createDeckFromCardIds($cardIds)->permutation(...$permutation);
-    }
-    public static function dataInvalidPermutation()
-    {
-        return [
-            [
-                ['card-1', 'card-2'], [0]
-            ],
-            [
-                ['card-1', 'card-2'], [0, 1, 2]
             ],
         ];
     }

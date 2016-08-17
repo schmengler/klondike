@@ -25,14 +25,6 @@ final class DsDeck implements Deck
 
 	public function permutation(int ...$p) : Deck
 	{
-	    //TODO move to DeckWithValidation decorator
-	    if (\count($p) !== $this->cards->count()) {
-	        throw new InvalidPermutation(\sprintf(
-	            'Permutation array must have same size as deck. Expected: %d Given %d',
-                $this->cards->count(),
-                \count($p)
-            ));
-        }
 	    $cardArray = \iterator_to_array($this->cards);
 	    \array_multisort($p, $cardArray);
 
