@@ -36,7 +36,7 @@ final class FakeCard implements Card
         return new self(
             new CardID($uuid),
             $visibility ?? CardVisibility::faceDown(),
-            new CardValue(CardSuit::spades(), CardRank::ace())
+            new CardValue(CardRank::ace(), CardSuit::spades())
         );
     }
 	public function turnOver() : Card

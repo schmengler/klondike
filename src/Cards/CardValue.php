@@ -8,9 +8,19 @@ final class CardValue
 {
 	private $suit, $rank;
 	
-	public function __construct(CardSuit $suit, CardRank $rank)
+	public function __construct(CardRank $rank, CardSuit $suit)
 	{
 		$this->suit = $suit;
 		$this->rank = $rank;
 	}
+
+    public function rank() : CardRank
+    {
+        return $this->rank;
+    }
+
+    public function suit() : CardSuit
+    {
+        return $this->suit;
+    }
 }
