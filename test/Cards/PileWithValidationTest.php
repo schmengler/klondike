@@ -5,7 +5,7 @@ use SSE\Cards\Ds\DsPile;
 use SSE\Cards\Fake\FakeCard;
 
 /**
- * @covers PileWithValidation
+ * @covers SSE\Cards\PileWithValidation
  */
 class DsPileTest extends \PHPUnit_Framework_TestCase
 {

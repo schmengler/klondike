@@ -1,7 +1,9 @@
 <?php
 namespace SSE\Cards\Fake;
 
-
+/**
+ * @covers SSE\Cards\Fake\FakeCommand
+ */
 class FakeCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -2,7 +2,7 @@
 namespace SSE\Cards;
 
 /**
- * @covers CardRank
+ * @covers SSE\Cards\CardRank
  */
 class CardRankTest extends \PHPUnit_Framework_TestCase
 {

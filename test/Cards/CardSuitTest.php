@@ -2,7 +2,7 @@
 namespace SSE\Cards;
 
 /**
- * @covers CardSuit
+ * @covers SSE\Cards\CardSuit
  */
 class CardSuitTest extends \PHPUnit_Framework_TestCase
 {

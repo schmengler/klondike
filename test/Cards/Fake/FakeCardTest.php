@@ -4,7 +4,7 @@ namespace SSE\Cards\Fake;
 use SSE\Cards\CardVisibility;
 
 /**
- * @covers FakeCard
+ * @covers SSE\Cards\Fake\FakeCard
  */
 class FakeCardTest extends \PHPUnit_Framework_TestCase
 {

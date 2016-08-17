@@ -8,7 +8,7 @@ use SSE\Cards\CardValue;
 use SSE\Cards\CardVisibility;
 
 /**
- * @covers DsCard
+ * @covers SSE\Cards\Ds\DsCard
  */
 class DsCardTest extends \PHPUnit_Framework_TestCase
 {

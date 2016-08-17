@@ -2,7 +2,7 @@
 namespace SSE\Cards;
 
 /**
- * @covers CardValue
+ * @covers SSE\Cards\CardValue
  */
 class CardValueTest extends \PHPUnit_Framework_TestCase
 {

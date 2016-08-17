@@ -4,6 +4,9 @@ namespace SSE\Cards\Fake;
 use SSE\Cards\Cards;
 use SSE\Cards\CardVisibility;
 
+/**
+ * @covers SSE\Cards\Fake\FakeCommands
+ */
 class FakeCommandsTest extends \PHPUnit_Framework_TestCase
 {
 	public function testIterator()

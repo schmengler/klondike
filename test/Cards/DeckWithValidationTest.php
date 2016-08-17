@@ -8,6 +8,9 @@ use SSE\Cards\Fake\FakeCards;
 use SSE\Cards\InvalidPermutation;
 use SSE\Cards\PileID;
 
+/**
+ * @covers SSE\Cards\DeckWithValidation
+ */
 class DeckWithValidationTest extends \PHPUnit_Framework_TestCase
 {
     /**

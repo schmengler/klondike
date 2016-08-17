@@ -2,7 +2,7 @@
 namespace SSE\Cards;
 
 /**
- * @covers CardVisibility
+ * @covers SSE\Cards\CardVisibility
  */
 class CardVisibilityTest extends \PHPUnit_Framework_TestCase
 {

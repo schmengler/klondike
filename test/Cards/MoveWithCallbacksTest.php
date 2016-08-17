@@ -5,7 +5,7 @@ use SSE\Cards\Fake\FakeEvent;
 use SSE\Cards\Fake\FakeEventBuilder;
 
 /**
- * @covers MoveWithCallbacks
+ * @covers SSE\Cards\MoveWithCallbacks
  */
 class MoveWithCallbacksTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,7 +7,7 @@ use SSE\Cards\Fake\FakeCard;
 use SSE\Cards\PileID;
 
 /**
- * @covers DsPile
+ * @covers SSE\Cards\Ds\DsPile
  */
 class DsPileTest extends \PHPUnit_Framework_TestCase
 {

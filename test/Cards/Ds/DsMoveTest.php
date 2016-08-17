@@ -9,7 +9,7 @@ use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
 
 /**
- * @covers DsMove
+ * @covers SSE\Cards\Ds\DsMove
  */
 class DsMoveTest extends \PHPUnit_Framework_TestCase
 {

@@ -5,6 +5,9 @@ namespace SSE\Cards\Ds;
 use SSE\Cards\Fake\FakeCards;
 use SSE\Cards\PileID;
 
+/**
+ * @covers SSE\Cards\Ds\DsDeck
+ */
 class DsDeckTest extends \PHPUnit_Framework_TestCase
 {
     public function testSize()

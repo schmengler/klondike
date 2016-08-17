@@ -6,7 +6,7 @@ use SSE\Cards\CardVisibility;
 use SSE\Cards\Fake\FakeCard;
 
 /**
- * @covers DsCards
+ * @covers SSE\Cards\Ds\DsCards
  */
 class DsCardsTest extends \PHPUnit_Framework_TestCase
 {

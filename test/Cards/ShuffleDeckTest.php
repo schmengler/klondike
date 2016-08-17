@@ -1,7 +1,9 @@
 <?php
 namespace SSE\Cards;
 
-
+/**
+ * @covers SSE\Cards\ShuffleDeck
+ */
 class ShuffleDeckTest extends \PHPUnit_Framework_TestCase
 {
     public function testShuffle()
