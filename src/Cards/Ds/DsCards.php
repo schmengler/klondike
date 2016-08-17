@@ -9,9 +9,17 @@ use SSE\Cards\Cards;
 
 final class DsCards extends \IteratorIterator implements Cards
 {
-	public function __construct(Card ...$cards)
+    /**
+     * @internal The constructor is only public because it is public in \IteratorIterator
+     * @see DsCards::fromCards() as named constructor
+     */
+	public function __construct(\Ds\Deque $dequeOfCards)
 	{
-		parent::__construct(new \Ds\Deque($cards));
+		parent::__construct($dequeOfCards);
+	}
+	public static function fromCards(Card ...$cards) : DsCards
+	{
+		return new self(new \Ds\Deque($cards));
 	}
 	public function current() : Card
 	{
@@ -19,12 +27,33 @@ final class DsCards extends \IteratorIterator implements Cards
 	}
 	public function reverse() : Cards
 	{
-		return new self(...reverse($this));
+		return self::fromCards(...reverse($this));
 	}
 	public function turnAll() : Cards
 	{
-		return new self(...map($this, function(Card $card) {
+		return self::fromCards(...map($this, function(Card $card) {
 			return $card->turnOver();
 		}));
 	}
+
+	public function getInnerIterator() : \Ds\Deque
+    {
+        return parent::getInnerIterator();
+    }
+
+    public function slice(int $offset, int $length = null) : Cards
+    {
+        if ($length === null) {
+            // slice() checks number of arguments
+            return new self($this->getInnerIterator()->slice($offset));
+        }
+        return new self($this->getInnerIterator()->slice($offset, $length));
+    }
+
+    public function merge(Cards $other) : Cards
+    {
+        return new self($this->getInnerIterator()->merge($other));
+    }
+
+
 }

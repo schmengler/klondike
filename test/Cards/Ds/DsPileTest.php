@@ -7,6 +7,9 @@ use SSE\Cards\Fake\FakeCard;
 use SSE\Cards\InvalidPileOperation;
 use SSE\Cards\PileWithValidation;
 
+/**
+ * @covers DsPile
+ */
 class DsPileTest extends \PHPUnit_Framework_TestCase
 {
 	/**
@@ -25,7 +28,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		];
 		$this->assertEquals(
 			$cards,
-			\iterator_to_array(DsPile::fromSingleCards(...$cards)->takeAll())
+			\iterator_to_array(DsPile::fromSingleCards(...$cards)->all())
 		);
 	}
 	public function testTake()
@@ -37,14 +40,14 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		];
 		$this->createPileWithCards(...$cards);
 		
-		$this->assertCount(1, $this->pile->take(1));
-		$this->assertEquals([$cards[2]], \iterator_to_array($this->pile->take(1)));
+		$this->assertCount(1, $this->pile->top(1));
+		$this->assertEquals([$cards[2]], \iterator_to_array($this->pile->top(1)));
 
-		$this->assertCount(3, $this->pile->take(3));
-		$this->assertEquals($cards, \iterator_to_array($this->pile->take(3)));
+		$this->assertCount(3, $this->pile->top(3));
+		$this->assertEquals($cards, \iterator_to_array($this->pile->top(3)));
 		
 		$this->setExpectedException(InvalidPileOperation::class, 'Cannot take 4 cards from pile of 3 cards');
-		$this->pile->take(4);
+		$this->pile->top(4);
 	}
 	
 	public function testTakeAll()
@@ -55,8 +58,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		];
 		$this->createPileWithCards(...$cards);
 		
-		$this->assertCount(2, $this->pile->takeAll());
-		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()));
+		$this->assertCount(2, $this->pile->all());
+		$this->assertEquals($cards, \iterator_to_array($this->pile->all()));
 	}
 	
 	public function testDrop()
@@ -68,8 +71,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		];
 		$this->createPileWithCards(...$cards);
 		
-		$this->assertEquals([$cards[0], $cards[1]], \iterator_to_array($this->pile->drop(1)->takeAll()));
-		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
+		$this->assertEquals([$cards[0], $cards[1]], \iterator_to_array($this->pile->drop(1)->all()));
+		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
 
 		$this->setExpectedException(InvalidPileOperation::class, 'Cannot drop 4 cards from pile of 3 cards');
 		$this->pile->drop(4);
@@ -83,8 +86,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		];
 		$this->createPileWithCards(...$cards);
 		
-		$this->assertEquals([], \iterator_to_array($this->pile->dropAll()->takeAll()));
-		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
+		$this->assertEquals([], \iterator_to_array($this->pile->dropAll()->all()));
+		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
 	}
 	
 	public function testAdd()
@@ -100,8 +103,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		$this->createPileWithCards(...$cards);
 		
 		$this->assertEquals(\array_merge($cards, $cardsToAdd),
-				\iterator_to_array($this->pile->add(new DsCards(...$cardsToAdd))->takeAll()));
-		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
+				\iterator_to_array($this->pile->add(DsCards::fromCards(...$cardsToAdd))->all()));
+		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
 	}
 	
 	public function testTurnTopCard()
@@ -115,8 +118,8 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals([
 				FakeCard::fromUuid('bottom-secret', CardVisibility::faceDown()),
 				FakeCard::fromUuid('top-secret', CardVisibility::faceUp()),
-		], \iterator_to_array($this->pile->turnTopCard()->takeAll()));
-		$this->assertEquals($cards, \iterator_to_array($this->pile->takeAll()), 'Original pile should be unchanged');
+		], \iterator_to_array($this->pile->turnTopCard()->all()));
+		$this->assertEquals($cards, \iterator_to_array($this->pile->all()), 'Original pile should be unchanged');
 	}
 	public function testTurnTopCardOnEmptyPile()
 	{

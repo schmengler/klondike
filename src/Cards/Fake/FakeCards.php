@@ -40,4 +40,24 @@ final class FakeCards extends \ArrayIterator implements Cards
 	{
 		
 	}
+
+    public function slice(int $offset, int $length = null) : Cards
+    {
+        return new self(
+            Collection::from(
+                // Collection::slice() behaves differently and cannot take sliced from the end
+                array_slice($this->getArrayCopy(), $offset, $length, false)
+            )
+        );
+    }
+
+    public function merge(Cards $other) : Cards
+    {
+        return new self(
+            Collection::from($this)
+                ->concat($other)
+                ->values()
+        );
+    }
+
 }

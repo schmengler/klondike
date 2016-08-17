@@ -16,7 +16,7 @@ final class PileWithValidation implements Pile
 	 *
 	 * @param int $numberOfCards
 	 */
-	public function take(int $numberOfCards) : Cards
+	public function top(int $numberOfCards) : Cards
 	{
 		$totalCards = $this->totalCards();
 		if ($numberOfCards > $totalCards) {
@@ -24,14 +24,14 @@ final class PileWithValidation implements Pile
 					'Cannot take %d cards from pile of %d cards', $numberOfCards, $totalCards
 			));
 		}
-		return $this->pile->take($numberOfCards);
+		return $this->pile->top($numberOfCards);
 	}
 	/**
 	 * Return all cards
 	 */
-	public function takeAll() : Cards
+	public function all() : Cards
 	{
-		return $this->pile->takeAll();
+		return $this->pile->all();
 	}
 	/**
 	 * Return pile without top $numberOfCards cards
@@ -77,6 +77,6 @@ final class PileWithValidation implements Pile
 	}
 	private function totalCards() : int
 	{
-		return $this->takeAll()->count();
+		return $this->all()->count();
 	}
 }

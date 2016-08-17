@@ -8,6 +8,9 @@ use SSE\Cards\GameID;
 use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
 
+/**
+ * @covers DsMove
+ */
 class DsMoveTest extends \PHPUnit_Framework_TestCase
 {
 	/**

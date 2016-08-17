@@ -13,11 +13,11 @@ interface Pile
 	 * 
 	 * @param int $numberOfCards
 	 */
-	public function take(int $numberOfCards) : Cards;
+	public function top(int $numberOfCards) : Cards;
 	/**
 	 * Return all cards
 	 */
-	public function takeAll() : Cards;
+	public function all() : Cards;
 	/**
 	 * Return pile without top $numberOfCards cards
 	 * 
