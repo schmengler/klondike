@@ -4,6 +4,7 @@ namespace SSE\Cards\Ds;
 use SSE\Cards\Card;
 use SSE\Cards\Cards;
 use SSE\Cards\Pile;
+use SSE\Cards\PileID;
 
 final class DsPile implements Pile
 {
@@ -11,16 +12,21 @@ final class DsPile implements Pile
 	 * @var DsCards
 	 */
 	private $cards;
+    /**
+     * @var PileID
+     */
+    private $pileId;
 
-	public static function fromSingleCards(Card ...$cards) : DsPile
+    public static function fromSingleCards(PileID $pileId, Card ...$cards) : DsPile
 	{
-		return new self(DsCards::fromCards(...$cards));
+		return new self($pileId, DsCards::fromCards(...$cards));
 	}
 
-	public function __construct(DsCards $cards)
+	public function __construct(PileID $pileId, DsCards $cards)
 	{
+        $this->pileId = $pileId;
 		$this->cards = $cards;
-	}
+    }
 
     /**
      * Return $numberOfCards cards from top
@@ -35,7 +41,7 @@ final class DsPile implements Pile
      */
 	public function drop(int $numberOfCards) : Pile
 	{
-		return new self($this->cards->slice(0, -$numberOfCards));
+		return new self($this->pileId, $this->cards->slice(0, -$numberOfCards));
 	}
 	/**
 	 * Return all cards
@@ -49,14 +55,14 @@ final class DsPile implements Pile
 	 */
 	public function dropAll() : Pile
 	{
-		return new self(DsCards::fromCards());
+		return new self($this->pileId, DsCards::fromCards());
 	}
 	/**
 	 * Return pile with $cards on top
 	 */
 	public function add(Cards $cards) : Pile
 	{
-		return new self($this->cards->merge($cards));
+		return new self($this->pileId, $this->cards->merge($cards));
 	}
 
 	public function __clone()

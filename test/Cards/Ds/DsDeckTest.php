@@ -3,6 +3,7 @@ namespace SSE\Cards\Ds;
 
 
 use SSE\Cards\Fake\FakeCards;
+use SSE\Cards\PileID;
 
 class DsDeckTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,7 +62,7 @@ class DsDeckTest extends \PHPUnit_Framework_TestCase
      */
     protected function createDeckFromCardIds($cardIds)
     {
-        $deck = new DsDeck(DsCards::fromCards(...FakeCards::fromUuids(...$cardIds)), DsPile::fromSingleCards());
+        $deck = new DsDeck(DsCards::fromCards(...FakeCards::fromUuids(...$cardIds)), DsPile::fromSingleCards(new PileID('pile')));
         return $deck;
     }
 }

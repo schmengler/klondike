@@ -16,7 +16,7 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
 	private function createPileWithCards(Card ...$cards)
 	{
 	    //TODO use FakePile when implemented
-		$this->pile = new PileWithValidation(DsPile::fromSingleCards(...$cards));
+		$this->pile = new PileWithValidation(DsPile::fromSingleCards(new PileID('fake'), ...$cards));
 	}
 	public function testTakeTooMany()
 	{

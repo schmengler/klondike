@@ -6,6 +6,7 @@ use SSE\Cards\Deck;
 use SSE\Cards\DeckWithValidation;
 use SSE\Cards\Fake\FakeCards;
 use SSE\Cards\InvalidPermutation;
+use SSE\Cards\PileID;
 
 class DeckWithValidationTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +30,7 @@ class DeckWithValidationTest extends \PHPUnit_Framework_TestCase
     }
     public function testPileDelegation()
     {
-        $pile = DsPile::fromSingleCards();
+        $pile = DsPile::fromSingleCards(new PileID('fake')); //TODO use FakePile when implemented
         $this->deckMock->expects($this->once())->method('pile')->willReturn($pile);
         $this->assertSame($pile, $this->deckWithValidation->pile());
     }
@@ -66,7 +67,7 @@ class DeckWithValidationTest extends \PHPUnit_Framework_TestCase
         return new DeckWithValidation(
             new DsDeck(
                 DsCards::fromCards(...FakeCards::fromUuids(...$cardIds)),
-                DsPile::fromSingleCards()
+                DsPile::fromSingleCards(new PileID('fake')) //TODO use FakePile when implemented
             )
         );
     }
