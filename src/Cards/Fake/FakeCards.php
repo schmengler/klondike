@@ -38,7 +38,12 @@ final class FakeCards extends \ArrayIterator implements Cards
 	}
 	public function turnAll() : Cards
 	{
-		
+		return new self(
+		    Collection::from($this)
+            ->map(function(Card $card) {
+                return $card->turnOver();
+            })
+        );
 	}
 
     public function slice(int $offset, int $length = null) : Cards

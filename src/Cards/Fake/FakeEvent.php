@@ -13,6 +13,10 @@ final class FakeEvent implements Event
 		$this->version = $version;
 		$this->payload = $payload;
 	}
+	public static function emptyEvent() : FakeEvent
+    {
+        return new self(new GameID(''), 0, '');
+    }
 	public function gameID() : GameID
 	{
 		return $this->gameId;

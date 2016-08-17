@@ -39,6 +39,12 @@ final class FakeCard implements Card
             new CardValue(CardRank::ace(), CardSuit::spades())
         );
     }
+
+    public function visibility() : CardVisibility
+    {
+        return $this->visibility;
+    }
+
 	public function turnOver() : Card
 	{
 		$clone = clone $this;

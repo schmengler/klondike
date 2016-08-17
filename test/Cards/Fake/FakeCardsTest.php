@@ -2,6 +2,7 @@
 namespace SSE\Cards\Fake;
 
 use SSE\Cards\Cards;
+use SSE\Cards\CardVisibility;
 
 class FakeCardsTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,5 +52,15 @@ class FakeCardsTest extends \PHPUnit_Framework_TestCase
                 FakeCards::fromUuids('a-1', 'a-2', 'a-3', 'b-1', 'b-2'),
             ]
         ];
+    }
+
+    public function testTurnAll()
+    {
+        $subject = FakeCards::fromUuids('tick', 'trick', 'track');
+        $turned = $subject->turnAll();
+        $this->assertCount(\count($subject), $turned);
+        foreach ($turned as $card) {
+            $this->assertEquals(CardVisibility::faceUp(), $card->visibility());
+        }
     }
 }
