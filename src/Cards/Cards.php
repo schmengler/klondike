@@ -4,7 +4,7 @@ namespace SSE\Cards;
 /**
  * Cards collection
  */
-interface Cards extends \Iterator
+interface Cards extends \Iterator, \Countable
 {
     // Iterator methods
 	public function current() : Card;

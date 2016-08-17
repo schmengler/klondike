@@ -30,10 +30,8 @@ class ShuffleDeck implements Deck
 
 	/**
 	 * Return new deck permutated by $p
-	 *
-	 * @param int[] $p
 	 */
-	public function permutation(array $p) : Deck
+	public function permutation(int ...$p) : Deck
 	{
 		return $this->deck->permutation($p);
 	}

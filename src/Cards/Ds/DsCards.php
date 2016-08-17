@@ -25,7 +25,13 @@ final class DsCards extends \IteratorIterator implements Cards
 	{
 		return parent::current();
 	}
-	public function reverse() : Cards
+
+    public function count() : int
+    {
+        return $this->getInnerIterator()->count();
+    }
+
+    public function reverse() : Cards
 	{
 		return self::fromCards(...reverse($this));
 	}

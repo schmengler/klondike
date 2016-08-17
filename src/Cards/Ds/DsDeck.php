@@ -3,6 +3,7 @@ namespace SSE\Cards\Ds;
 
 use SSE\Cards\Cards;
 use SSE\Cards\Deck;
+use SSE\Cards\InvalidPermutation;
 use SSE\Cards\Pile;
 
 final class DsDeck implements Deck
@@ -22,13 +23,26 @@ final class DsDeck implements Deck
 		$this->cards = $cards;
 	}
 
-	public function permutation(array $p) : Deck
+	public function permutation(int ...$p) : Deck
 	{
-		
+	    //TODO move to DeckWithValidation decorator
+	    if (\count($p) !== $this->cards->count()) {
+	        throw new InvalidPermutation(\sprintf(
+	            'Permutation array must have same size as deck. Expected: %d Given %d',
+                $this->cards->count(),
+                \count($p)
+            ));
+        }
+	    $cardArray = \iterator_to_array($this->cards);
+	    \array_multisort($p, $cardArray);
+
+        $newDeck = clone $this;
+        $newDeck->cards = DsCards::fromCards(...$cardArray);
+		return $newDeck;
 	}
 	
 	public function pile() : Pile
 	{
-		//TODO convert to pile, to deal from it
+		return $this->emptyPile->add($this->cards);
 	}
 }
