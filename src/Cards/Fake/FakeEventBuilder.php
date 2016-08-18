@@ -8,13 +8,11 @@ use SSE\Cards\GameID;
 final class FakeEventBuilder implements EventBuilder
 {
 	private $gameId;
-	private static $nextVersions = [];
 	private $payload;
 	
 	public function __construct(GameID $gameId)
 	{
 		$this->gameId = $gameId;
-		self::$nextVersions[(string)$gameId] = self::$nextVersions[(string)$gameId] ?? 1; 
 	}
 	public function withPayload(string $payload) : EventBuilder
 	{
@@ -24,6 +22,6 @@ final class FakeEventBuilder implements EventBuilder
 	}
 	public function create() : Event
 	{
-		return new FakeEvent($this->gameId, self::$nextVersions[(string)$this->gameId]++, $this->payload);
+		return new FakeEvent($this->gameId, $this->payload);
 	}
 }
