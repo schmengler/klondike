@@ -1,5 +1,5 @@
 <?php
-namespace Klondike\Field;
+namespace SSE\Klondike\Field;
 
 use Move\IncompleteMove;
 use SSE\Cards\MoveTarget;
