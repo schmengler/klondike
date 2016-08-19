@@ -18,21 +18,19 @@ final class Ds52CardsDeckFactory implements DeckFactory
 {
 	public function create() : Deck
 	{
-		//TODO construct deck with 52 cards, face down, new UUIDs
         $cardDeque = new \Ds\Deque();
-        foreach (range(1, 52) as $n) {
-            $cardDeque->push(
-                new DsCard(
-                    new CardID($n),
-                    new CardValue(
-                        CardRank::number($n),
-                        CardSuit::hearts()
-                    ),
-                    CardVisibility::faceDown()
-                )
-            );
+        foreach ([CardSuit::hearts(), CardSuit::diamonds(), CardSuit::clubs(), CardSuit::spades()] as $suit) {
+            foreach (\range(1, 13) as $n) {
+                $rank = CardRank::number($n);
+                $cardDeque->push(
+                    new DsCard(
+                        new CardID(\md5($suit . "-" . $rank)),
+                        new CardValue($rank, $suit),
+                        CardVisibility::faceDown()
+                    )
+                );
+            }
         }
-        $cards = new DsCards($cardDeque);
-        return new DsDeck($cards, DsPile::fromSingleCards(new PileID('deck-pile')));
+        return new DsDeck(new DsCards($cardDeque), DsPile::fromSingleCards(new PileID('deck-pile')));
 	}
 }

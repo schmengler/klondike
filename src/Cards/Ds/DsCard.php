@@ -18,6 +18,14 @@ final class DsCard implements Card
 		$this->value = $value;
 		$this->visibility = $visibility;
 	}
+	public function id() : CardID
+    {
+        return $this->id;
+    }
+	public function value() : CardValue
+    {
+        return $this->value;
+    }
 	public function visibility() : CardVisibility
 	{
 		return $this->visibility;

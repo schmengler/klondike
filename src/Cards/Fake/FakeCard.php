@@ -40,6 +40,16 @@ final class FakeCard implements Card
         );
     }
 
+    public function id() : CardID
+    {
+        return $this->cardId;
+    }
+
+    public function value() : CardValue
+    {
+        return $this->value;
+    }
+
     public function visibility() : CardVisibility
     {
         return $this->visibility;

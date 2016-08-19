@@ -26,4 +26,13 @@ class DsCardTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(CardVisibility::faceUp(), $this->card->turnOver()->visibility(), 'visibility of turned card');
 		$this->assertEquals(CardVisibility::faceDown(), $this->card->visibility(), 'original object must be unchanged');
 	}
+	public function testValueAndId()
+	{
+		$this->card = new DsCard(
+				$id = new CardID('king-of-hearts'),
+				$value = new CardValue(CardRank::king(), CardSuit::hearts()),
+				CardVisibility::faceDown());
+        $this->assertSame($id, $this->card->id());
+        $this->assertSame($value, $this->card->value());
+	}
 }
