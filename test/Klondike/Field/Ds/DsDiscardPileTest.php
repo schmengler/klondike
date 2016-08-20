@@ -5,6 +5,7 @@ use SSE\Cards\Fake\FakeCard;
 use SSE\Cards\Fake\FakeCards;
 use SSE\Cards\Fake\FakeEvent;
 use SSE\Cards\Fake\FakePile;
+use SSE\Cards\GameID;
 use SSE\Cards\InvalidMove;
 use SSE\Cards\MoveTarget;
 use SSE\Cards\MoveWithCallbacks;
@@ -12,8 +13,16 @@ use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 use SSE\Cards\PileWithValidation;
 
+/**
+ * @covers DsDiscardPile
+ * @covers DsStock
+ */
 class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var FakePile
+     */
+    private $internalPile;
     /**
      * @var DsDiscardPile
      */
@@ -22,24 +31,30 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
      * @var MoveTarget|\PHPUnit_Framework_MockObject_MockObject
      */
     private $targetMock;
+    /**
+     * @var GameID
+     */
+    private $gameId;
 
     protected function setUp()
     {
         $this->targetMock = $this->createMock(MoveTarget::class);
-        $pile = new PileWithValidation(
-            new FakePile(
-                new PileID('discard-pile'),
-                FakeCards::fromUuids('card-1', 'card-2', 'card-3', 'card-4')
-            )
+        $this->internalPile = new FakePile(
+            new PileID('discard-pile'),
+            FakeCards::fromUuids('card-1', 'card-2', 'card-3', 'card-4')->turnAll()
         );
-        $this->discardPile = new DsDiscardPile($pile);
+        $pile = new PileWithValidation(
+            $this->internalPile
+        );
+        $this->gameId = new GameID('discard-pile-game');
+        $this->discardPile = new DsDiscardPile($this->gameId, $pile);
     }
     public function testMoveTopCardReturnsMoveWithTopCard()
     {
         $move = $this->discardPile->moveTopCard();
         $actualCards = $move->cards();
         $this->assertCount(1, $actualCards);
-        $this->assertEquals(FakeCard::fromUuid('card-4'), ...$actualCards);
+        $this->assertEquals(FakeCard::fromUuid('card-4')->turnOver(), ...$actualCards);
     }
     public function testIncompleteMoveLocksPile()
     {
@@ -92,6 +107,14 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
             // expected
         }
     }
+    public function testTurnOverAsStock()
+    {
+        $stockPile = FakePile::fromUuids(...[]);
+        $stock = new DsStock($this->gameId, $stockPile);
+        $this->discardPile->turnOver($stock);
+        $this->assertEquals(FakeCards::fromUuids(), $this->internalPile->transition()->all(), 'Discard pile should be empty');
+        $this->assertEquals(FakeCards::fromUuids('card-4', 'card-3', 'card-2', 'card-1'), $stockPile->transition()->all(), 'Stock pile should be reversed and turned discard pile');
+    }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|Pile
@@ -99,7 +122,7 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
     private function mockInternalPile() : \PHPUnit_Framework_MockObject_MockObject
     {
         $pile = $this->createMock(Pile::class);
-        $this->discardPile = new DsDiscardPile($pile);
+        $this->discardPile = new DsDiscardPile($this->gameId, $pile);
         return $pile;
     }
 }

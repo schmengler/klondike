@@ -1,9 +1,11 @@
 <?php
 namespace SSE\Klondike\Field;
 
-use Klondike\Move\CardsMoved;
+use SSE\Cards\MoveOrigin;
+use SSE\Cards\MoveTarget;
+use SSE\Klondike\Move\Event\CardsMoved;
 
-interface Stock
+interface Stock extends MoveOrigin, MoveTarget
 {
-	public function turnCard() : CardMoved;
+	public function turnCard(DiscardPile $target) : CardsMoved;
 }

@@ -1,7 +1,10 @@
 <?php
 namespace SSE\Klondike\Field\Ds;
 
+use SSE\Cards\Cards;
 use SSE\Cards\Ds\DsCards;
+use SSE\Cards\Event;
+use SSE\Cards\GameID;
 use SSE\Cards\InvalidMove;
 use SSE\Cards\Move;
 use SSE\Cards\MoveWithCallbacks;
@@ -10,6 +13,7 @@ use SSE\Klondike\Field\DiscardPile;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\MoveTarget;
+use SSE\Klondike\Field\Stock;
 use SSE\Klondike\Move\Event\PileTurnedOver;
 
 final class DsDiscardPile implements DiscardPile
@@ -23,13 +27,14 @@ final class DsDiscardPile implements DiscardPile
      * @var bool
      */
     private $locked = false;
-
     /**
-     * DsDiscardPile constructor.
-     * @param Pile $pile
+     * @var GameID
      */
-    public function __construct(Pile $pile)
+    private $gameId;
+
+    public function __construct(GameID $gameId, Pile $pile)
     {
+        $this->gameId = $gameId;
         $this->pile = $pile;
     }
 
@@ -40,7 +45,7 @@ final class DsDiscardPile implements DiscardPile
         }
         $this->locked = true;
         return new MoveWithCallbacks(
-            new DsMove(DsCards::fromCards(...$this->pile->top(1))),
+            new DsMove($this, DsCards::fromCards(...$this->pile->top(1))),
             function() {
                 $this->pile->drop(1);
                 $this->locked = false;
@@ -51,14 +56,33 @@ final class DsDiscardPile implements DiscardPile
         );
     }
 
-    public function turnOver(): PileTurnedOver
+    public function turnOver(Stock $target): PileTurnedOver
     {
-        // TODO: Implement turnOver() method.
+        $move = new MoveWithCallbacks(
+            new DsMove($this, $this->pile->all()->reverse()->turnAll()),
+            function() {
+                $this->pile->dropAll();
+            },
+            function() {
+            }
+        );
+        return $move->to($target);
     }
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
         // TODO: Implement possibleMoves() method.
     }
+
+    public function receive(Move $move) : Event
+    {
+        // TODO: Implement receive() method.
+    }
+
+    public function accepts(Move $move) : bool
+    {
+        // TODO: Implement accepts() method.
+    }
+
 
 }

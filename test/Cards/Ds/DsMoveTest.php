@@ -2,8 +2,10 @@
 namespace SSE\Cards\Ds;
 
 use SSE\Cards\Fake\FakeCards;
+use SSE\Cards\Fake\FakeCommands;
 use SSE\Cards\Fake\FakeEvent;
 use SSE\Cards\Fake\FakeEventBuilder;
+use SSE\Cards\Fake\FakeMoveOrigin;
 use SSE\Cards\GameID;
 use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
@@ -35,7 +37,7 @@ class DsMoveTest extends \PHPUnit_Framework_TestCase
 
 		$this->moveTarget->expects($this->once())
 			->method('receive')
-			->with($incompleteMove->cards())
+			->with($incompleteMove)
 			->willReturn($expectedEvent);
 		
 		$this->assertSame($expectedEvent, $incompleteMove->to($this->moveTarget));
@@ -43,6 +45,7 @@ class DsMoveTest extends \PHPUnit_Framework_TestCase
 	private function incompleteMoveWithCardIds(string ...$uuids) : Move
 	{
 		return new DsMove(
+		    new FakeMoveOrigin(FakeCommands::fromNames('whatever')),
 			FakeCards::fromUuids(...$uuids)
 		);
 	}

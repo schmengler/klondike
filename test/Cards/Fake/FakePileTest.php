@@ -106,4 +106,25 @@ class FakePileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cards, \iterator_to_array($pile->all()), 'Original pile should be unchanged');
     }
 
+    public function testTransitionTransitivity()
+    {
+        $pile = $this->createPileWithCards('b', 'ee', 'r');
+        $this->assertSame($pile, $pile->transition());
+        $pile->drop(1)->add(FakeCards::fromUuids('s'));
+        $this->assertEquals(FakeCards::fromUuids('b', 'ee', 's'), $pile->transition()->all());
+    }
+    public function testTransitionForDropAll()
+    {
+        $pile = $this->createPileWithCards('b', 'e', 'a', 'r');
+        $pile->dropAll();
+        $this->assertEquals(FakeCards::fromUuids(), $pile->transition()->all());
+    }
+    public function testTransitionForTurnTopCard()
+    {
+        $pile = $this->createPileWithCards('bott', 'rop');
+        $pile->turnTopCard();
+        $expectedCards = FakeCards::fromUuids('bott', 'rop');
+        $expectedCards[1] = $expectedCards[1]->turnOver();
+        $this->assertEquals($expectedCards, $pile->transition()->all());
+    }
 }

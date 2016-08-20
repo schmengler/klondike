@@ -10,11 +10,11 @@ use SSE\Cards\Fake\FakeEventBuilder;
 class MoveWithCallbacksTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit_Framework_MockObject_MockObject|callable
 	 */
 	private $onSuccessMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit_Framework_MockObject_MockObject|callable
 	 */
 	private $onCancelMock;
 	/**

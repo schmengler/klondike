@@ -26,7 +26,12 @@ final class MoveWithCallbacks implements Move
 		$this->onCancel = $onCancel;
 	}
 
-	public function cards() : Cards
+    public function origin() : MoveOrigin
+    {
+        return $this->move->origin();
+    }
+
+    public function cards() : Cards
 	{
 		return $this->move->cards();
 	}

@@ -1,13 +1,13 @@
 <?php
 namespace SSE\Klondike\Field;
 
-use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Move;
-use SSE\Klondike\Move\Event\PileTurnedOver;
 use SSE\Cards\MoveOrigin;
+use SSE\Cards\MoveTarget;
+use SSE\Klondike\Move\Event\PileTurnedOver;
 
-interface DiscardPile extends MoveOrigin
+interface DiscardPile extends MoveOrigin, MoveTarget
 {
 	public function moveTopCard() : Move;
-	public function turnOver(): PileTurnedOver;
+	public function turnOver(Stock $target): PileTurnedOver;
 }
