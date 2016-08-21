@@ -7,6 +7,7 @@ use SSE\Cards\Fake\FakeEvent;
 use SSE\Cards\Fake\FakeEventBuilder;
 use SSE\Cards\Fake\FakeMoveOrigin;
 use SSE\Cards\GameID;
+use SSE\Cards\InvalidMove;
 use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
 
@@ -42,6 +43,13 @@ class DsMoveTest extends \PHPUnit_Framework_TestCase
 		
 		$this->assertSame($expectedEvent, $incompleteMove->to($this->moveTarget));
 	}
+	public function testPreventMoveTwice()
+    {
+        $move = $this->incompleteMoveWithCardIds('a-card');
+        $move->to($this->moveTarget);
+        $this->setExpectedExceptionRegExp(InvalidMove::class, '/Move already finished/');
+        $move->to($this->moveTarget);
+    }
 	private function incompleteMoveWithCardIds(string ...$uuids) : Move
 	{
 		return new DsMove(
