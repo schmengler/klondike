@@ -1,7 +1,8 @@
 <?php
-namespace Klondike\Element;
+namespace SSE\Klondike\Field;
 
 use SSE\Cards\Ds\DsMove;
+use SSE\Cards\MoveTarget;
 use SSE\Klondike\Move\Event\CardTurned;
 
 interface TableauPile extends MoveTarget

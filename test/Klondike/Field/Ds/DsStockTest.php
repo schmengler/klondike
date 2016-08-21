@@ -2,23 +2,56 @@
 namespace SSE\Klondike\Field\Ds;
 
 
+use SSE\Klondike\Field\TableauPile;
 use SSE\Cards\Ds\DsMove;
-use SSE\Cards\Event;
 use SSE\Cards\Fake\FakeCards;
 use SSE\Cards\Fake\FakeEvent;
 use SSE\Cards\Fake\FakePile;
 use SSE\Cards\GameID;
-use SSE\Cards\Move;
 use SSE\Cards\MoveOrigin;
-use SSE\Cards\PileID;
 use SSE\Klondike\Field\DiscardPile;
-use SSE\Klondike\Move\Event\CardsMoved;
+use SSE\Klondike\Field\FoundationPile;
+use SSE\Klondike\Move\Command\MoveCards;
 
 /**
  * @covers DsStock
  */
 class DsStockTest extends \PHPUnit_Framework_TestCase
 {
+    private $discardPileMock;
+
+    private $foundationPileMock;
+
+    private $tableauPileMock;
+
+    protected function setUp()
+    {
+        $this->discardPileMock = $this->createMock(DiscardPile::class);
+        $this->foundationPileMock = $this->createMock(FoundationPile::class);
+        $this->tableauPileMock = $this->createMock(TableauPile::class);
+
+    }
+    public function testPossibleMovesWithNonEmptyStock()
+    {
+        $this->discardPileMock->method('accepts')->willReturn(true);
+        $this->foundationPileMock->expects($this->never())->method('accepts');
+        $this->tableauPileMock->expects($this->never())->method('accepts');
+
+        $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids('possibly-a-card'));
+        $commands = $stock->possibleMoves($this->discardPileMock, $this->foundationPileMock, $this->tableauPileMock);
+        $this->assertCount(1, $commands);
+        $this->assertInstanceOf(MoveCards::class, \iterator_to_array($commands)[0]);
+    }
+    public function testPossibleMovesWithEmptyStock()
+    {
+        $this->discardPileMock->method('accepts')->willReturn(true);
+        $this->foundationPileMock->expects($this->never())->method('accepts');
+        $this->tableauPileMock->expects($this->never())->method('accepts');
+
+        $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids());
+        $commands = $stock->possibleMoves($this->discardPileMock, $this->foundationPileMock, $this->tableauPileMock);
+        $this->assertCount(0, $commands);
+    }
     public function testAcceptMoveFromDiscardPile()
     {
         $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids());

@@ -2,8 +2,10 @@
 namespace SSE\Klondike\Field\Ds;
 
 use SSE\Cards\Commands;
+use SSE\Cards\Ds\DsCommands;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Event;
+use SSE\Cards\Fake\FakeCommands;
 use SSE\Cards\GameID;
 use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
@@ -12,6 +14,7 @@ use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Klondike\Field\Stock;
+use SSE\Klondike\Move\Command\MoveCards;
 use SSE\Klondike\Move\Event\PileTurnedOver;
 
 final class DsStock implements Stock
@@ -38,7 +41,15 @@ final class DsStock implements Stock
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
-        // TODO: Implement possibleMoves() method.
+        $commands = [];
+        foreach ($availableTargets as $moveTarget) {
+            if ($moveTarget instanceof DiscardPile && $this->pile->count() > 0) {
+                $commands[] = new MoveCards(function() use ($moveTarget) {
+                    return $this->turnCard($moveTarget);
+                });
+            }
+        }
+        return DsCommands::fromCommands(...$commands);
     }
 
     public function receive(Move $move) : Event
