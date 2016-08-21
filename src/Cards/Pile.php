@@ -6,6 +6,10 @@ namespace SSE\Cards;
  */
 interface Pile extends \Countable
 {
+    /**
+     * Return pile id
+     */
+    public function id() : PileID;
 	/**
 	 * Return $numberOfCards cards from top
 	 */

@@ -11,7 +11,13 @@ final class PileWithValidation implements Pile
 	{
 		$this->pile = $pile;
 	}
-	/**
+
+    public function id() : PileID
+    {
+        return $this->pile->id();
+    }
+
+    /**
 	 * Return $numberOfCards cards from top
 	 */
 	public function top(int $numberOfCards) : Cards

@@ -9,11 +9,13 @@ use SSE\Cards\InvalidMove;
 use SSE\Cards\Move;
 use SSE\Cards\MoveWithCallbacks;
 use SSE\Cards\Pile;
+use SSE\Cards\PileID;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\MoveTarget;
 use SSE\Klondike\Field\Stock;
+use SSE\Klondike\Move\Event\CardsMoved;
 use SSE\Klondike\Move\Event\PileTurnedOver;
 
 final class DsDiscardPile implements DiscardPile
@@ -36,6 +38,11 @@ final class DsDiscardPile implements DiscardPile
     {
         $this->gameId = $gameId;
         $this->pile = $pile;
+    }
+
+    public function pileId() : PileID
+    {
+        return $this->pile->id();
     }
 
     public function moveTopCard() : Move
@@ -76,7 +83,7 @@ final class DsDiscardPile implements DiscardPile
 
     public function receive(Move $move) : Event
     {
-        // TODO: Implement receive() method.
+        //TODO: return new CardsMoved($this->gameId, $move->cards(), $move->origin()->pileId(), $this->pileId());
     }
 
     public function accepts(Move $move) : bool

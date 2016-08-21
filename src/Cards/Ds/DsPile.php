@@ -28,6 +28,11 @@ final class DsPile implements Pile
 		$this->cards = $cards;
     }
 
+    public function id() : PileID
+    {
+        return $this->pileId;
+    }
+
     /**
      * Return $numberOfCards cards from top
      */

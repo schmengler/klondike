@@ -32,6 +32,10 @@ final class FakePile implements Pile
         $this->cards = $cards;
     }
 
+    public function id() : PileID
+    {
+        return $this->pileId;
+    }
 
     public static function fromUuids(string ...$cards) : FakePile
     {
