@@ -73,6 +73,12 @@ final class FakePile implements Pile
         );
     }
 
+    public function count() : int
+    {
+        return $this->all()->count();
+    }
+
+
     public function transition() : FakePile
     {
         return $this->transition ? $this->transition->transition() : $this;

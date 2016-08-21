@@ -63,14 +63,19 @@ final class PileWithValidation implements Pile
 	 */
 	public function turnTopCard() : Pile
 	{
-		$totalCards = $this->totalCards();
-		if ($totalCards === 0) {
+        if ($this->totalCards() === 0) {
 			throw new InvalidPileOperation('Cannot turn top card of empty pile');
 		}
 		return $this->pile->turnTopCard();
 	}
-	private function totalCards() : int
+
+    public function count() : int
+    {
+        return $this->pile->count();
+    }
+
+    private function totalCards() : int
 	{
-		return $this->all()->count();
+	    return $this->count();
 	}
 }

@@ -8,7 +8,6 @@ use SSE\Cards\GameID;
 use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
 use SSE\Cards\Pile;
-use SSE\Klondike\Field\CardMoved;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Klondike\Field\Stock;
 use SSE\Klondike\Move\Event\CardsMoved;
@@ -38,19 +37,17 @@ final class DsStock implements Stock
 
     public function receive(Move $move) : Event
     {
-        //TODO only accept move from discard pile
         $this->pile = $this->pile->add($move->cards());
         return new PileTurnedOver($this->gameId);
     }
 
     public function accepts(Move $move) : bool
     {
-        // TODO: Implement accepts() method.
+        return $this->pile->count()  === 0 && \is_a($move->origin(), DiscardPile::class);
     }
-
 
     public function turnCard(DiscardPile $target) : CardsMoved
     {
-        // TODO: Implement turnCard() method.
+        return new CardsMoved($this->gameId, $this->pile->top(1), $this->pileId(), $target->pileId());
     }
 }

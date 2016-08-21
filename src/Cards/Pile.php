@@ -4,7 +4,7 @@ namespace SSE\Cards;
 /**
  * Immutable pile of cards
  */
-interface Pile
+interface Pile extends \Countable
 {
 	/**
 	 * Return $numberOfCards cards from top

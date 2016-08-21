@@ -77,4 +77,10 @@ final class DsPile implements Pile
         $deque->push($deque->pop()->turnOver());
         return $newPile;
 	}
+
+    public function count() : int
+    {
+        return $this->all()->count();
+    }
+
 }

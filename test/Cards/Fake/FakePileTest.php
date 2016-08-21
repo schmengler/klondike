@@ -21,7 +21,7 @@ class FakePileTest extends \PHPUnit_Framework_TestCase
             \iterator_to_array($this->createPileWithCards('card-1', 'card-2')->all())
         );
     }
-    public function testTake()
+    public function testTop()
     {
         $cards = [
             FakeCard::fromUuid('xxx'),
@@ -37,7 +37,7 @@ class FakePileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cards, \iterator_to_array($pile->top(3)));
     }
 
-    public function testTakeAll()
+    public function testAll()
     {
         $cards = [
             FakeCard::fromUuid('first-of-all'),
@@ -47,6 +47,12 @@ class FakePileTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(2, $pile->all());
         $this->assertEquals($cards, \iterator_to_array($pile->all()));
+    }
+
+    public function testCount()
+    {
+        $pile = $this->createPileWithCards('un', 'deux', 'trois');
+        $this->assertEquals(3, $pile->count());
     }
 
     public function testDrop()
