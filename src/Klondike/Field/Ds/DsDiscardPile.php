@@ -83,12 +83,12 @@ final class DsDiscardPile implements DiscardPile
 
     public function receive(Move $move) : Event
     {
-        //TODO: return new CardsMoved($this->gameId, $move->cards(), $move->origin()->pileId(), $this->pileId());
+        return new CardsMoved($this->gameId, $move->cards(), $move->origin()->pileId(), $this->pileId());
     }
 
     public function accepts(Move $move) : bool
     {
-        // TODO: Implement accepts() method.
+        return \is_a($move->origin(), Stock::class);
     }
 
 

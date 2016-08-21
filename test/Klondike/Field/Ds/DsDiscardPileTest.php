@@ -1,17 +1,23 @@
 <?php
 namespace SSE\Klondike\Field\Ds;
 
+use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Fake\FakeCard;
 use SSE\Cards\Fake\FakeCards;
+use SSE\Cards\Fake\FakeCommands;
 use SSE\Cards\Fake\FakeEvent;
+use SSE\Cards\Fake\FakeMoveOrigin;
 use SSE\Cards\Fake\FakePile;
 use SSE\Cards\GameID;
 use SSE\Cards\InvalidMove;
+use SSE\Cards\MoveOrigin;
 use SSE\Cards\MoveTarget;
 use SSE\Cards\MoveWithCallbacks;
 use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 use SSE\Cards\PileWithValidation;
+use SSE\Klondike\Field\Stock;
+use SSE\Klondike\Move\Event\CardsMoved;
 
 /**
  * @covers DsDiscardPile
@@ -116,6 +122,22 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(FakeCards::fromUuids('card-4', 'card-3', 'card-2', 'card-1'), $stockPile->transition()->all(), 'Stock pile should be reversed and turned discard pile');
     }
 
+    public function testAcceptMoveFromStock()
+    {
+        $this->assertTrue(
+            $this->discardPile->accepts(new DsMove($this->createMock(Stock::class), FakeCards::fromUuids())), 'Stock should be accepted'
+        );
+        $this->assertFalse(
+            $this->discardPile->accepts(new DsMove($this->createMock(MoveOrigin::class), FakeCards::fromUuids())), 'Arbitrary MoveOrigin should not be accepted'
+        );
+    }
+    public function testReceiveReturnsCardsMovedEvent()
+    {
+        $move = new DsMove(new FakeMoveOrigin(FakeCommands::fromNames()), FakeCards::fromUuids());
+        $event = $this->discardPile->receive($move);
+        $this->assertInstanceOf(CardsMoved::class, $event);
+        //TODO assert payload
+    }
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|Pile
      */
