@@ -1,6 +1,7 @@
 <?php
 namespace SSE\Klondike\Field\Ds;
 
+use DusanKasan\Knapsack\Collection;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsCommands;
 use SSE\Cards\Ds\DsMove;
@@ -41,15 +42,16 @@ final class DsStock implements Stock
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
-        $commands = [];
-        foreach ($availableTargets as $moveTarget) {
-            if ($moveTarget instanceof DiscardPile && $this->pile->count() > 0) {
-                $commands[] = new MoveCards(function() use ($moveTarget) {
+        return DsCommands::fromCommands(...Collection::from($availableTargets)
+            ->filter(function(MoveTarget $moveTarget) {
+                return $moveTarget instanceof DiscardPile && $this->pile->count() > 0;
+            })
+            ->map(function(DiscardPile $moveTarget) {
+                return new MoveCards(function() use ($moveTarget) {
                     return $this->turnCard($moveTarget);
                 });
-            }
-        }
-        return DsCommands::fromCommands(...$commands);
+            })
+        );
     }
 
     public function receive(Move $move) : Event

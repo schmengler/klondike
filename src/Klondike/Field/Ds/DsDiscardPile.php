@@ -1,6 +1,7 @@
 <?php
 namespace SSE\Klondike\Field\Ds;
 
+use DusanKasan\Knapsack\Collection;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsCards;
 use SSE\Cards\Ds\DsCommands;
@@ -79,15 +80,16 @@ final class DsDiscardPile implements DiscardPile
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
-        $commands = [];
-        foreach ($availableTargets as $moveTarget) {
-            if ($moveTarget instanceof Stock && $moveTarget->accepts(new DsMove($this, $this->pile->all()))) {
-                $commands[] = new TurnOverPile(function() use ($moveTarget) {
+        return DsCommands::fromCommands(...Collection::from($availableTargets)
+            ->filter(function(MoveTarget $moveTarget) {
+                return $moveTarget instanceof Stock && $moveTarget->accepts(new DsMove($this, $this->pile->all()));
+            })
+            ->map(function(Stock $moveTarget) {
+                return new TurnOverPile(function() use ($moveTarget) {
                     return $this->turnOver($moveTarget);
                 });
-            }
-        }
-        return DsCommands::fromCommands(...$commands);
+            })
+        );
     }
 
     public function receive(Move $move) : Event
