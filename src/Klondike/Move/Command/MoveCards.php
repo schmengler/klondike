@@ -13,7 +13,6 @@ final class MoveCards implements Command
 
     public function __construct(callable $command)
     {
-
         $this->command = $command;
     }
     public function __invoke() : Event

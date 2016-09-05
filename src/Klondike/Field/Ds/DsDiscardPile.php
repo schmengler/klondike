@@ -1,22 +1,23 @@
 <?php
 namespace SSE\Klondike\Field\Ds;
 
-use SSE\Cards\Cards;
+use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsCards;
+use SSE\Cards\Ds\DsCommands;
+use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Event;
 use SSE\Cards\GameID;
 use SSE\Cards\InvalidMove;
 use SSE\Cards\Move;
+use SSE\Cards\MoveTarget;
 use SSE\Cards\MoveWithCallbacks;
 use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 use SSE\Klondike\Field\DiscardPile;
-use SSE\Cards\Commands;
-use SSE\Cards\Ds\DsMove;
-use SSE\Cards\MoveTarget;
 use SSE\Klondike\Field\Stock;
 use SSE\Klondike\Move\Event\CardsMoved;
 use SSE\Klondike\Move\Event\PileTurnedOver;
+use SSE\Klondike\Move\Command\TurnOverPile;
 
 final class DsDiscardPile implements DiscardPile
 {
@@ -78,7 +79,15 @@ final class DsDiscardPile implements DiscardPile
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
-        // TODO: Implement possibleMoves() method.
+        $commands = [];
+        foreach ($availableTargets as $moveTarget) {
+            if ($moveTarget instanceof Stock && $moveTarget->accepts(new DsMove($this, $this->pile->all()))) {
+                $commands[] = new TurnOverPile(function() use ($moveTarget) {
+                    return $this->turnOver($moveTarget);
+                });
+            }
+        }
+        return DsCommands::fromCommands(...$commands);
     }
 
     public function receive(Move $move) : Event
