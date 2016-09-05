@@ -8,4 +8,8 @@ final class PileID
 	{
 		$this->uuid = $uuid;
 	}
+    public function __toString() : string
+    {
+        return "".$this->uuid;
+    }
 }
