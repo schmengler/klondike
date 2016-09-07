@@ -1,10 +1,11 @@
 <?php
 namespace SSE\Klondike\Field;
 
-use Move\IncompleteMove;
+use SSE\Cards\Move;
+use SSE\Cards\MoveOrigin;
 use SSE\Cards\MoveTarget;
 
-interface FoundationPile extends MoveTarget
+interface FoundationPile extends MoveTarget, MoveOrigin
 {
-	public function moveTopCard() : IncompleteMove;
+	public function moveTopCard() : Move;
 }
