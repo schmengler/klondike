@@ -94,6 +94,7 @@ final class DsDiscardPile implements DiscardPile
 
     public function receive(Move $move) : Event
     {
+        $this->pile = $this->pile->add($move->cards());
         return new CardsMoved($this->gameId, $move->cards(), $move->origin()->pileId(), $this->pileId());
     }
 

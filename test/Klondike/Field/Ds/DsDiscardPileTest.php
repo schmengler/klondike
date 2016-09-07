@@ -28,8 +28,17 @@ use SSE\Klondike\Move\Command\TurnOverPile;
  */
 class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|FoundationPile
+     */
     private $foundationPileMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|Stock
+     */
     private $stockMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|TableauPile
+     */
     private $tableauPileMock;
     /**
      * @var FakePile
@@ -161,8 +170,9 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
     }
     public function testReceiveReturnsCardsMovedEvent()
     {
-        $move = new DsMove(new FakeMoveOrigin(FakeCommands::fromNames()), FakeCards::fromUuids());
+        $move = new DsMove(new FakeMoveOrigin(FakeCommands::fromNames()), FakeCards::fromUuids('from-stock'));
         $event = $this->discardPile->receive($move);
+        $this->assertEquals(FakeCards::fromUuids('from-stock'), $this->internalPile->transition()->top(1));
         $this->assertInstanceOf(CardsMoved::class, $event);
         //TODO assert payload
     }
