@@ -2,6 +2,8 @@
 namespace SSE\Klondike\Field\Ds;
 
 
+use SSE\Cards\Fake\FakeCommands;
+use SSE\Cards\Fake\FakeMoveOrigin;
 use SSE\Klondike\Field\TableauPile;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Fake\FakeCards;
@@ -12,6 +14,7 @@ use SSE\Cards\MoveOrigin;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Klondike\Field\FoundationPile;
 use SSE\Klondike\Move\Command\MoveCards;
+use SSE\Klondike\Move\Event\PileTurnedOver;
 
 /**
  * @covers DsStock
@@ -68,6 +71,15 @@ class DsStockTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(
             $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids())), 'DiscardPile should not be accepted if stock empty'
         );
+    }
+    public function testReceiveReturnsPileTurnedOverEvent()
+    {
+        $stockPile = FakePile::fromUuids();
+        $stock = new DsStock(new GameID('game-1'), $stockPile);
+        $move = new DsMove(new FakeMoveOrigin(FakeCommands::fromNames()), FakeCards::fromUuids('x', 'y'));
+        $event = $stock->receive($move);
+        $this->assertInstanceOf(PileTurnedOver::class, $event);
+        $this->assertEquals(FakeCards::fromUuids('x', 'y'), $stockPile->transition()->all());
     }
     public function testTurnCard()
     {
