@@ -15,7 +15,7 @@ final class FakeCards extends \ArrayIterator implements Cards
 	{
 		parent::__construct($collection->toArray());
 	}
-	public static function fromUuids(string ...$uuids)
+	public static function fromUuids(string ...$uuids) : FakeCards
 	{
 		return new self(
 			Collection::from($uuids)
@@ -63,6 +63,16 @@ final class FakeCards extends \ArrayIterator implements Cards
                 ->concat($other)
                 ->values()
         );
+    }
+
+    public function first() : Card
+    {
+        return \array_values($this->getArrayCopy())[0];
+    }
+
+    public function last() : Card
+    {
+        return \array_values($this->getArrayCopy())[$this->count() - 1];
     }
 
 }

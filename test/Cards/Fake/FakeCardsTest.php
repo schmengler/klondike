@@ -21,6 +21,16 @@ class FakeCardsTest extends \PHPUnit_Framework_TestCase
 		$cards = FakeCards::fromUuids('id-1', 'id-2', 'id-3');
 		$this->assertEquals($expectedCards, \iterator_to_array($cards->reverse()));
 	}
+	public function testFirst()
+    {
+        $cards = FakeCards::fromUuids('first', 'second');
+        $this->assertEquals(FakeCard::fromUuid('first'), $cards->first());
+    }
+    public function testLast()
+    {
+        $cards = FakeCards::fromUuids('second-last', 'last');
+        $this->assertEquals(FakeCard::fromUuid('last'), $cards->last());
+    }
     /**
      * @dataProvider dataSlice
      */

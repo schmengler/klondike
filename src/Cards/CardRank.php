@@ -44,10 +44,14 @@ final class CardRank
         return new self($number);
     }
 
-    public function equals(CardRank $other)
+    public function equals(CardRank $other) : bool
 	{
 		return $this->value === $other->value;
 	}
+	public function difference(CardRank $other) : int
+    {
+        return $this->value - $other->value;
+    }
 	public function __toString() : string
 	{
 		return "".([

@@ -31,6 +31,16 @@ final class DsCards extends \IteratorIterator implements Cards
         return $this->getInnerIterator()->count();
     }
 
+    public function first() : Card
+    {
+        return $this->getInnerIterator()->first();
+    }
+
+    public function last() : Card
+    {
+        return $this->getInnerIterator()->last();
+    }
+
     public function reverse() : Cards
 	{
 		return self::fromCards(...reverse($this));

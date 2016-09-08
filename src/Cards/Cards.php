@@ -13,6 +13,8 @@ interface Cards extends \Iterator, \Countable
 	public function reverse() : Cards;
     public function slice(int $offset, int $length = null) : Cards;
     public function merge(Cards $other) : Cards;
+    public function first() : Card;
+    public function last() : Card;
 
     // Card specific methods
 	public function turnAll() : Cards;

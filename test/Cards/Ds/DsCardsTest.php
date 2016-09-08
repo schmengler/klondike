@@ -32,6 +32,18 @@ class DsCardsTest extends \PHPUnit_Framework_TestCase
 		$this->cards = DsCards::fromCards(...$cards);
 		$this->assertEquals(\array_reverse($cards), \iterator_to_array($this->cards->reverse()));
 	}
+    public function testFirst()
+    {
+        $cards = [FakeCard::fromUuid('first'), FakeCard::fromUuid('second')];
+        $this->cards = DsCards::fromCards(...$cards);
+        $this->assertEquals(FakeCard::fromUuid('first'), $this->cards->first());
+    }
+    public function testLast()
+    {
+        $cards = [FakeCard::fromUuid('second-last'), FakeCard::fromUuid('last')];
+        $this->cards = DsCards::fromCards(...$cards);
+        $this->assertEquals(FakeCard::fromUuid('last'), $this->cards->last());
+    }
     /**
      * @dataProvider dataSlice
      */
