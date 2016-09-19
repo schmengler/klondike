@@ -69,5 +69,4 @@ abstract class DsAbstractField implements MoveOrigin, MoveTarget
             }
         );
     }
-
 }

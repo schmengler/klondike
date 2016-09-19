@@ -22,6 +22,7 @@ use SSE\Cards\Move;
 use SSE\Cards\PileID;
 use SSE\Cards\PileWithValidation;
 use SSE\Klondike\Field\TableauPile;
+use SSE\Klondike\Move\Command\MoveCards;
 use SSE\Klondike\Move\Event\CardsMoved;
 
 class DsFoundationPileTest extends \PHPUnit_Framework_TestCase
@@ -214,5 +215,22 @@ class DsFoundationPileTest extends \PHPUnit_Framework_TestCase
                 'should_accept' => false,
             ],
         ];
+    }
+    public function testPossibleMovesWithNonEmptyPile()
+    {
+        // moves are possible for top card to tableau piles if they accept the card
+        $tableau1 = $this->createMock(TableauPile::class);
+        $tableau2 = $this->createMock(TableauPile::class);
+        $tableau3 = $this->createMock(TableauPile::class);
+
+        $tableau1->method('accepts')->willReturn(true);
+        $tableau2->method('accepts')->willReturn(false);
+        $tableau3->method('accepts')->willReturn(true);
+
+        $actualPossibleMoves = $this->foundationPile->possibleMoves($tableau1, $tableau2, $tableau3);
+        $this->assertCount(2, $actualPossibleMoves);
+        foreach ($actualPossibleMoves as $move) {
+            $this->assertInstanceOf(MoveCards::class, $move);
+        }
     }
 }
