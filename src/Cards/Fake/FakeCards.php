@@ -65,6 +65,13 @@ final class FakeCards extends \ArrayIterator implements Cards
         );
     }
 
+    public function filter(callable $filter): Cards
+    {
+        return new self(
+            Collection::from($this)->filter($filter)
+        );
+    }
+
     public function first() : Card
     {
         return \array_values($this->getArrayCopy())[0];

@@ -59,6 +59,11 @@ class DsPileTest extends \PHPUnit_Framework_TestCase
         $pile = $this->createPileWithCards(...FakeCards::fromUuids('un', 'deux', 'trois'));
         $this->assertEquals(3, $pile->count());
     }
+    public function testCountVisible()
+    {
+        $pile = $this->createPileWithCards(...FakeCards::fromUuids('eins', 'zwei')->merge(FakeCards::fromUuids('drei', 'vier', 'fünf')->turnAll()));
+        $this->assertEquals(3, $pile->countVisible());
+    }
 	public function testDrop()
 	{
 		$cards = [

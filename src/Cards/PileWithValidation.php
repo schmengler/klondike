@@ -80,6 +80,11 @@ final class PileWithValidation implements Pile
         return $this->pile->count();
     }
 
+    public function countVisible(): int
+    {
+        return $this->pile->countVisible();
+    }
+
     private function totalCards() : int
 	{
 	    return $this->count();

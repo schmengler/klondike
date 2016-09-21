@@ -15,6 +15,7 @@ interface Cards extends \Iterator, \Countable
     public function merge(Cards $other) : Cards;
     public function first() : Card;
     public function last() : Card;
+    public function filter(callable $filter) : Cards;
 
     // Card specific methods
 	public function turnAll() : Cards;

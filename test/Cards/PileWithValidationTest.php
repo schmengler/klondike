@@ -73,6 +73,11 @@ class PileWithValidationTest extends \PHPUnit_Framework_TestCase
         $this->pileMock->expects($this->once())->method('count')->willReturn(10);
         $this->assertEquals(10, $this->pile->count());
     }
+    public function testCountVisibleDelegation()
+    {
+        $this->pileMock->expects($this->once())->method('countVisible')->willReturn(5);
+        $this->assertEquals(5, $this->pile->countVisible());
+    }
     public function testDropAllDelegation()
     {
         $this->pileMock->expects($this->once())->method('dropAll');

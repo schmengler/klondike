@@ -34,4 +34,8 @@ interface Pile extends \Countable
 	 * Return pile with top card turned over
 	 */
 	public function turnTopCard() : Pile;
+    /**
+     * Return number of visible cards
+     */
+    public function countVisible(): int;
 }

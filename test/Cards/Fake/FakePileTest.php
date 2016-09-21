@@ -55,6 +55,12 @@ class FakePileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(3, $pile->count());
     }
 
+    public function testCountVisible()
+    {
+        $pile = $this->createPileWithCards('eins', 'zwei', 'drei')->turnTopCard();
+        $this->assertEquals(1, $pile->countVisible());
+    }
+
     public function testDrop()
     {
         $cards = [

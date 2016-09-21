@@ -1,6 +1,7 @@
 <?php
 namespace SSE\Cards\Ds;
 
+use SSE\Cards\Card;
 use SSE\Cards\Cards;
 use SSE\Cards\CardVisibility;
 use SSE\Cards\Fake\FakeCard;
@@ -76,6 +77,20 @@ class DsCardsTest extends \PHPUnit_Framework_TestCase
                 DsCards::fromCards(FakeCard::fromUuid('a-1'), FakeCard::fromUuid('a-2'), FakeCard::fromUuid('a-3'), FakeCard::fromUuid('b-1'), FakeCard::fromUuid('b-2')),
             ]
         ];
+    }
+    public function testFilter()
+    {
+        $cards = DsCards::fromCards(FakeCard::fromUuid('aa'), FakeCard::fromUuid('ab'), FakeCard::fromUuid('ba'), FakeCard::fromUuid('bb'));
+        $this->assertEquals(
+            \iterator_to_array(DsCards::fromCards(FakeCard::fromUuid('ab'), FakeCard::fromUuid('bb'))),
+            \iterator_to_array(
+                $cards->filter(
+                    function(Card $card) {
+                        return \substr($card->id(), 1, 1) === 'b';
+                    }
+                )
+            )
+        );
     }
 	public function testTurnAll()
 	{

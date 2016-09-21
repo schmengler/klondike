@@ -1,6 +1,7 @@
 <?php
 namespace SSE\Cards\Fake;
 
+use SSE\Cards\Card;
 use SSE\Cards\Cards;
 use SSE\Cards\CardVisibility;
 
@@ -64,6 +65,17 @@ class FakeCardsTest extends \PHPUnit_Framework_TestCase
                 FakeCards::fromUuids('a-1', 'a-2', 'a-3', 'b-1', 'b-2'),
             ]
         ];
+    }
+
+    public function testFilter()
+    {
+        $cards = FakeCards::fromUuids('aa', 'ab', 'ba', 'bb');
+        $this->assertEquals(
+            FakeCards::fromUuids('aa', 'ab'),
+            $cards->filter(function(Card $card) {
+                return \substr($card->id(), 0, 1) === 'a';
+            })
+        );
     }
 
     public function testTurnAll()

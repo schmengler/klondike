@@ -2,7 +2,9 @@
 namespace SSE\Cards\Fake;
 
 use DusanKasan\Knapsack\Collection;
+use SSE\Cards\Card;
 use SSE\Cards\Cards;
+use SSE\Cards\CardVisibility;
 use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 
@@ -80,6 +82,16 @@ final class FakePile implements Pile
     public function count() : int
     {
         return $this->all()->count();
+    }
+
+    public function countVisible(): int
+    {
+        return $this->cards
+            ->filter(
+                function(Card $card) {
+                    return $card->visibility() == CardVisibility::faceUp();
+                }
+            )->count();
     }
 
 

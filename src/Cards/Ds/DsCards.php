@@ -71,5 +71,9 @@ final class DsCards extends \IteratorIterator implements Cards
         return new self($this->getInnerIterator()->merge($other));
     }
 
+    public function filter(callable $filter): Cards
+    {
+        return new self($this->getInnerIterator()->filter($filter));
+    }
 
 }
