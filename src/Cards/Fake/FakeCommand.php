@@ -2,6 +2,7 @@
 namespace SSE\Cards\Fake;
 use SSE\Cards\Command;
 use SSE\Cards\Event;
+use SSE\Cards\PileID;
 
 final class FakeCommand implements Command
 {
@@ -13,14 +14,24 @@ final class FakeCommand implements Command
      * @var bool
      */
     private $invoked = false;
+    /**
+     * @var PileID
+     */
+    private $pileId;
 
     /**
      * FakeCommand constructor.
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct(string $name, string $uuid = '')
     {
         $this->name = $name;
+        $this->pileId = new PileID($uuid);
+    }
+
+    public function pileId(): PileID
+    {
+        return $this->pileId;
     }
 
     public function __invoke() : Event

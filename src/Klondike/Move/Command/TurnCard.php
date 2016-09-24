@@ -3,6 +3,7 @@ namespace SSE\Klondike\Move\Command;
 
 use SSE\Cards\Command;
 use SSE\Cards\Event;
+use SSE\Cards\PileID;
 
 final class TurnCard implements Command
 {
@@ -10,11 +11,22 @@ final class TurnCard implements Command
      * @var callable
      */
     private $command;
+    /**
+     * @var PileID
+     */
+    private $pile;
 
-    public function __construct(callable $command)
+    public function __construct(callable $command, PileID $pile)
     {
         $this->command = $command;
+        $this->pile = $pile;
     }
+
+    public function pileId(): PileID
+    {
+        return $this->pile;
+    }
+
     public function __invoke() : Event
     {
         return \call_user_func($this->command);
@@ -22,7 +34,7 @@ final class TurnCard implements Command
 
     public function __toString(): string
     {
-        // TODO: Implement __toString() method.
+        return \sprintf("Turn card from %s", $this->pile);
     }
 
 }

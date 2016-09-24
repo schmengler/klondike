@@ -3,6 +3,7 @@ namespace SSE\Klondike\Field\Ds;
 
 use DusanKasan\Knapsack\Collection;
 use SSE\Cards\Commands;
+use SSE\Cards\Ds\DsCards;
 use SSE\Cards\Ds\DsCommands;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Event;
@@ -46,9 +47,12 @@ final class DsStock implements Stock
                 return $moveTarget instanceof DiscardPile && $this->pile->count() > 0;
             })
             ->map(function(DiscardPile $moveTarget) {
-                return new MoveCards(function() use ($moveTarget) {
-                    return $this->turnCard($moveTarget);
-                });
+                return new MoveCards(
+                    function() use ($moveTarget) {
+                        return $this->turnCard($moveTarget);
+                    },
+                    $this->pileId(), $moveTarget->pileId(), 1
+                );
             })
         );
     }

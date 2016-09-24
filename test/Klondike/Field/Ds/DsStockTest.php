@@ -4,6 +4,7 @@ namespace SSE\Klondike\Field\Ds;
 
 use SSE\Cards\Fake\FakeCommands;
 use SSE\Cards\Fake\FakeMoveOrigin;
+use SSE\Cards\PileID;
 use SSE\Klondike\Field\TableauPile;
 use SSE\Cards\Ds\DsMove;
 use SSE\Cards\Fake\FakeCards;
@@ -21,10 +22,17 @@ use SSE\Klondike\Move\Event\PileTurnedOver;
  */
 class DsStockTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var DiscardPile|\PHPUnit_Framework_MockObject_MockObject
+     */
     private $discardPileMock;
-
+    /**
+     * @var FoundationPile|\PHPUnit_Framework_MockObject_MockObject
+     */
     private $foundationPileMock;
-
+    /**
+     * @var TableauPile|\PHPUnit_Framework_MockObject_MockObject
+     */
     private $tableauPileMock;
 
     protected function setUp()
@@ -37,6 +45,7 @@ class DsStockTest extends \PHPUnit_Framework_TestCase
     public function testPossibleMovesWithNonEmptyStock()
     {
         $this->discardPileMock->method('accepts')->willReturn(true);
+        $this->discardPileMock->method('pileId')->willReturn(new PileID('d'));
         $this->foundationPileMock->expects($this->never())->method('accepts');
         $this->tableauPileMock->expects($this->never())->method('accepts');
 

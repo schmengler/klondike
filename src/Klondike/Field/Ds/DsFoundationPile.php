@@ -49,9 +49,12 @@ final class DsFoundationPile extends DsAbstractField implements FoundationPile
                 return $target->accepts(new DsMove($this, DsCards::fromCards(...$this->pile->top(1))));
             })
             ->map(function(MoveTarget $target) {
-                return new MoveCards(function() use ($target) {
-                    return $this->moveTopCard()->to($target);
-                });
+                return new MoveCards(
+                    function() use ($target) {
+                        return $this->moveTopCard()->to($target);
+                    },
+                    $this->pileId(), $target->pileId(), 1
+                );
             })
         );
     }

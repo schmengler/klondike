@@ -40,9 +40,12 @@ final class DsDiscardPile extends DsAbstractField implements DiscardPile
                 return $moveTarget instanceof Stock && $moveTarget->accepts(new DsMove($this, $this->pile->all()));
             })
             ->map(function(Stock $moveTarget) {
-                return new TurnOverPile(function() use ($moveTarget) {
-                    return $this->turnOver($moveTarget);
-                });
+                return new TurnOverPile(
+                    function() use ($moveTarget) {
+                        return $this->turnOver($moveTarget);
+                    },
+                    $this->pileId()
+                );
             })
         );
     }

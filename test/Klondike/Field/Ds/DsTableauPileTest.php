@@ -167,6 +167,9 @@ class DsTableauPileTest extends \PHPUnit_Framework_TestCase
         $tableau1 = $this->createMock(TableauPile::class);
         $tableau2 = $this->createMock(TableauPile::class);
         $foundation1 = $this->createMock(FoundationPile::class);
+        $tableau1->method('pileId')->willReturn(new PileID('t1'));
+        $tableau2->method('pileId')->willReturn(new PileID('t2'));
+        $foundation1->method('pileId')->willReturn(new PileID('f1'));
 
         $tableau1->method('accepts')->willReturn(true);
         $tableau2->method('accepts')->willReturn(false);

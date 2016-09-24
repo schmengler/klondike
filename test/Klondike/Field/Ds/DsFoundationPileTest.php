@@ -227,6 +227,10 @@ class DsFoundationPileTest extends \PHPUnit_Framework_TestCase
         $tableau2->method('accepts')->willReturn(false);
         $tableau3->method('accepts')->willReturn(true);
 
+        $tableau1->method('pileId')->willReturn(new PileID('t1'));
+        $tableau2->method('pileId')->willReturn(new PileID('t2'));
+        $tableau3->method('pileId')->willReturn(new PileID('t3'));
+
         $actualPossibleMoves = $this->foundationPile->possibleMoves($tableau1, $tableau2, $tableau3);
         $this->assertCount(2, $actualPossibleMoves);
         foreach ($actualPossibleMoves as $move) {
