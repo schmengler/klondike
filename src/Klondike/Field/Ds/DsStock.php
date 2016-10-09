@@ -2,10 +2,12 @@
 namespace SSE\Klondike\Field\Ds;
 
 use DusanKasan\Knapsack\Collection;
+use SSE\Cards\Cards;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsCards;
 use SSE\Cards\Ds\DsCommands;
 use SSE\Cards\Ds\DsMove;
+use SSE\Cards\Ds\DsPile;
 use SSE\Cards\Event;
 use SSE\Cards\GameID;
 use SSE\Cards\Move;
@@ -15,6 +17,7 @@ use SSE\Cards\Pile;
 use SSE\Cards\PileID;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Klondike\Field\Stock;
+use SSE\Klondike\Field\TableauPile;
 use SSE\Klondike\Move\Command\MoveCards;
 use SSE\Klondike\Move\Event\PileTurnedOver;
 
@@ -38,6 +41,13 @@ final class DsStock implements Stock
     public function pileId() : PileID
     {
         return $this->pile->id();
+    }
+
+    public function deal(int $cardCount) : Cards
+    {
+        $cards = $this->pile->top($cardCount);
+        $this->pile = $this->pile->drop($cardCount);
+        return $cards;
     }
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
@@ -73,7 +83,7 @@ final class DsStock implements Stock
         $move = new MoveWithCallbacks(
             new DsMove($this, $this->pile->top(1)->turnAll()),
             function() {
-                $this->pile->drop(1);
+                $this->pile = $this->pile->drop(1);
             },
             function() {
             }

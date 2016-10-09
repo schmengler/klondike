@@ -42,6 +42,20 @@ class DsStockTest extends \PHPUnit_Framework_TestCase
         $this->tableauPileMock = $this->createMock(TableauPile::class);
 
     }
+    public function testDeal()
+    {
+        $internalPile = FakePile::fromUuids('c-1', 'c-2', 'c-3');
+        $stock = new DsStock(new GameID('new-game'), $internalPile);
+        $dealtCards = $stock->deal(2);
+        $this->assertEquals(
+            FakePile::fromUuids('c-1'),
+            $internalPile->transition()
+        );
+        $this->assertEquals(
+            FakePile::fromUuids('c-2', 'c-3')->all(),
+            $dealtCards
+        );
+    }
     public function testPossibleMovesWithNonEmptyStock()
     {
         $this->discardPileMock->method('accepts')->willReturn(true);
