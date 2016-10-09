@@ -94,6 +94,9 @@ final class DsStock implements Stock
     // test
     public function __toString() : string
     {
-        return '[X]';
+        if ($this->pile->count() === 0) {
+            return '';
+        }
+        return \chr(27) . "[34m" .  '[X]' . \chr(27) . '[0m';
     }
 }

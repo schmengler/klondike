@@ -14,7 +14,7 @@ $discardPile = new \SSE\Klondike\Field\Ds\DsDiscardPile($gameId, \SSE\Cards\Ds\D
 $foundationPiles = \DusanKasan\Knapsack\Collection::range(1, 4)
     ->map(function($n) use ($gameId) {
         return new \SSE\Klondike\Field\Ds\DsFoundationPile(
-            $gameId, \SSE\Cards\Ds\DsPile::fromSingleCards(new \SSE\Cards\PileID('Foundation Pile ' . $n))
+            $gameId, \SSE\Cards\Ds\DsPile::fromSingleCards(new \SSE\Cards\PileID(chr(27).'[32mFoundation Pile ' . $n . chr(27) . '[0m'))
         );
     });
 $tableauPiles = \DusanKasan\Knapsack\Collection::range(1, 7)
