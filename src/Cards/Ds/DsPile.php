@@ -99,4 +99,9 @@ final class DsPile implements Pile
             )->count();
     }
 
+    // test
+    public function __toString() : string
+    {
+        return $this->cards->__toString();
+    }
 }

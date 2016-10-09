@@ -69,4 +69,10 @@ abstract class DsAbstractField implements MoveOrigin, MoveTarget
             }
         );
     }
+
+    //test
+    public function __toString() : string
+    {
+        return $this->pile->__toString();
+    }
 }

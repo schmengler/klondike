@@ -90,4 +90,10 @@ final class DsStock implements Stock
         );
         return $move->to($target);
     }
+
+    // test
+    public function __toString() : string
+    {
+        return '[X]';
+    }
 }

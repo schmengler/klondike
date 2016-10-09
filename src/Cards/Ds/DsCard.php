@@ -3,6 +3,7 @@ namespace SSE\Cards\Ds;
 
 use SSE\Cards\Card;
 use SSE\Cards\CardID;
+use SSE\Cards\CardSuit;
 use SSE\Cards\CardValue;
 use SSE\Cards\CardVisibility;
 
@@ -35,4 +36,14 @@ final class DsCard implements Card
 	{
 		return new self($this->id, $this->value, $this->visibility->opposite());
 	}
+
+	//test
+    public function __toString() : string
+    {
+        if ($this->visibility() == CardVisibility::faceDown()) {
+            return \chr(27) . "[34m" .  '[X]' . \chr(27) . '[0m';
+        }
+        $ansi = $this->value()->suit()->colorEquals(CardSuit::hearts()) ? '1' : '7';
+        return \chr(27) . "[3{$ansi}m" .  '['. $this->value()->suit() . $this->value()->rank()  .']' . \chr(27) . '[0m';
+    }
 }
