@@ -61,7 +61,7 @@ abstract class DsAbstractField implements MoveOrigin, MoveTarget
         return new MoveWithCallbacks(
             new DsMove($this, DsCards::fromCards(...$this->pile->top($numberOfCards))),
             function() use ($numberOfCards) {
-                $this->pile->drop($numberOfCards);
+                $this->pile = $this->pile->drop($numberOfCards);
                 $this->locked = false;
             },
             function() {

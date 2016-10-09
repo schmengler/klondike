@@ -69,7 +69,7 @@ class DsTableauPile extends DsAbstractField implements TableauPile
 
     public function showCard(): CardTurned
     {
-        $this->pile->turnTopCard();
+        $this->pile = $this->pile->turnTopCard();
         return new CardTurned($this->gameId, $this->pileId());
     }
 
