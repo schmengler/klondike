@@ -19,6 +19,7 @@ use SSE\Cards\PileWithValidation;
 use SSE\Klondike\Field\FoundationPile;
 use SSE\Klondike\Field\Stock;
 use SSE\Klondike\Field\TableauPile;
+use SSE\Klondike\Move\Command\MoveCards;
 use SSE\Klondike\Move\Event\CardsMoved;
 use SSE\Klondike\Move\Command\TurnOverPile;
 
@@ -60,8 +61,11 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->tableauPileMock = $this->createMock(TableauPile::class);
+        $this->tableauPileMock->method('pileId')->willReturn(new PileID('tableau-pile-1'));
         $this->foundationPileMock = $this->createMock(FoundationPile::class);
+        $this->foundationPileMock->method('pileId')->willReturn(new PileID('foundation-pile-1'));
         $this->stockMock = $this->createMock(Stock::class);
+        $this->stockMock->method('pileId')->willReturn(new PileID('stock-pile'));
         $this->targetMock = $this->createMock(MoveTarget::class);
         $this->internalPile = new FakePile(
             new PileID('discard-pile'),
@@ -76,21 +80,24 @@ class DsDiscardPileTest extends \PHPUnit_Framework_TestCase
     public function testPossibleMovesWithEmptyStock()
     {
         $this->stockMock->method('accepts')->willReturn(true);
-        $this->foundationPileMock->expects($this->never())->method('accepts');
-        $this->tableauPileMock->expects($this->never())->method('accepts');
+        $this->foundationPileMock->method('accepts')->willReturn(false);
+        $this->tableauPileMock->method('accepts')->willReturn(true);
 
         $commands = $this->discardPile->possibleMoves($this->foundationPileMock, $this->tableauPileMock, $this->stockMock);
-        $this->assertCount(1, $commands);
+        $this->assertCount(2, $commands);
         $this->assertInstanceOf(TurnOverPile::class, \iterator_to_array($commands)[0]);
+        $this->assertInstanceOf(MoveCards::class, \iterator_to_array($commands)[1]);
     }
     public function testPossibleMovesWithNonEmptyStock()
     {
         $this->stockMock->method('accepts')->willReturn(false);
-        $this->foundationPileMock->expects($this->never())->method('accepts');
-        $this->tableauPileMock->expects($this->never())->method('accepts');
+        $this->foundationPileMock->method('accepts')->willReturn(true);
+        $this->tableauPileMock->method('accepts')->willReturn(true);
 
         $commands = $this->discardPile->possibleMoves($this->foundationPileMock, $this->tableauPileMock, $this->stockMock);
-        $this->assertCount(0, $commands);
+        $this->assertCount(2, $commands);
+        $this->assertInstanceOf(MoveCards::class, \iterator_to_array($commands)[0]);
+        $this->assertInstanceOf(MoveCards::class, \iterator_to_array($commands)[1]);
     }
     public function testMoveTopCardReturnsMoveWithTopCard()
     {

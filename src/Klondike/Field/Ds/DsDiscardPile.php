@@ -9,7 +9,10 @@ use SSE\Cards\Move;
 use SSE\Cards\MoveTarget;
 use SSE\Cards\MoveWithCallbacks;
 use SSE\Klondike\Field\DiscardPile;
+use SSE\Klondike\Field\FoundationPile;
 use SSE\Klondike\Field\Stock;
+use SSE\Klondike\Field\TableauPile;
+use SSE\Klondike\Move\Command\MoveCards;
 use SSE\Klondike\Move\Command\TurnOverPile;
 use SSE\Klondike\Move\Event\PileTurnedOver;
 
@@ -25,7 +28,7 @@ final class DsDiscardPile extends DsAbstractField implements DiscardPile
         $move = new MoveWithCallbacks(
             new DsMove($this, $this->pile->all()->reverse()->turnAll()),
             function() {
-                $this->pile->dropAll();
+                $this->pile = $this->pile->dropAll();
             },
             function() {
             }
@@ -46,7 +49,28 @@ final class DsDiscardPile extends DsAbstractField implements DiscardPile
                     },
                     $this->pileId()
                 );
-            })
+            })->concat(
+                Collection::from($availableTargets)
+                ->filter(function(MoveTarget $moveTarget) {
+                    return (
+                        $this->pile->count() > 0
+                    ) && (
+                        $moveTarget instanceof FoundationPile || $moveTarget instanceof TableauPile
+                    ) && (
+                        $moveTarget->accepts(new DsMove($this, $this->pile->top(1)))
+                    );
+                })
+                ->map(function(MoveTarget $moveTarget) {
+                    return new MoveCards(
+                        function() use ($moveTarget) {
+                            return $this->moveTopCard()->to($moveTarget);
+                        },
+                        $this->pileId(),
+                        $moveTarget->pileId(),
+                        1
+                    );
+                })
+            )
         );
     }
 
