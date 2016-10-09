@@ -216,6 +216,14 @@ class DsFoundationPileTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    public function testPossibleMovesWithEmptyPile()
+    {
+        $this->foundationPile= new DsFoundationPile($this->gameId, FakePile::fromUuids());
+        $tableau = $this->createMock(TableauPile::class);
+        $tableau->expects($this->never())->method('accepts');
+        $actualPossibleMoves = $this->foundationPile->possibleMoves($tableau);
+        $this->assertCount(0, $actualPossibleMoves);
+    }
     public function testPossibleMovesWithNonEmptyPile()
     {
         // moves are possible for top card to tableau piles if they accept the card

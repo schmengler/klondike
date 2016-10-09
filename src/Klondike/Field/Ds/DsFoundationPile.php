@@ -44,6 +44,9 @@ final class DsFoundationPile extends DsAbstractField implements FoundationPile
 
     public function possibleMoves(MoveTarget ...$availableTargets) : Commands
     {
+        if ($this->pile->count() === 0) {
+            return DsCommands::fromCommands();
+        }
         return DsCommands::fromCommands(...Collection::from($availableTargets)
             ->filter(function(MoveTarget $target) {
                 return $target->accepts(new DsMove($this, DsCards::fromCards(...$this->pile->top(1))));
