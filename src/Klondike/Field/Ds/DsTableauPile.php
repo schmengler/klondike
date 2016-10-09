@@ -3,6 +3,7 @@ namespace SSE\Klondike\Field\Ds;
 
 
 use DusanKasan\Knapsack\Collection;
+use SSE\Cards\CardRank;
 use SSE\Cards\CardVisibility;
 use SSE\Cards\Commands;
 use SSE\Cards\Ds\DsCards;
@@ -59,6 +60,9 @@ class DsTableauPile extends DsAbstractField implements TableauPile
     {
         //TODO extract comparison to cards decorator
         $bottomMovedCard = $move->cards()->first();
+        if ($this->pile->count() === 0) {
+            return $bottomMovedCard->value()->rank()->equals(CardRank::king());
+        }
         $pileTopCard = $this->pile->all()->last();
         return $pileTopCard->visibility() == CardVisibility::faceUp()
             && ! $bottomMovedCard->value()->suit()->colorEquals($pileTopCard->value()->suit())

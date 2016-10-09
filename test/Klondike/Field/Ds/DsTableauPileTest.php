@@ -143,6 +143,22 @@ class DsTableauPileTest extends \PHPUnit_Framework_TestCase
                 ),
                 'should_accept' => false,
             ],
+            'pile-empty-king' => [
+                'cards_on_pile' => DsCards::fromCards(),
+                'origin_class' => TableauPile::class,
+                'moved_cards' => DsCards::fromCards(
+                    new DsCard(new CardID('ks'), new CardValue(CardRank::king(), CardSuit::spades()), CardVisibility::faceUp())
+                ),
+                'should_accept' => true,
+            ],
+            'pile-empty-other-card' => [
+                'cards_on_pile' => DsCards::fromCards(),
+                'origin_class' => TableauPile::class,
+                'moved_cards' => DsCards::fromCards(
+                    new DsCard(new CardID('js'), new CardValue(CardRank::jack(), CardSuit::spades()), CardVisibility::faceUp())
+                ),
+                'should_accept' => false,
+            ],
         ];
     }
     public function testPossibleMovesWithEmptyPile()
