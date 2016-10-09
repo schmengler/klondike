@@ -75,7 +75,7 @@ final class DsStock implements Stock
 
     public function accepts(Move $move) : bool
     {
-        return $this->pile->count()  === 0 && \is_a($move->origin(), DiscardPile::class);
+        return $this->pile->count()  === 0 && \is_a($move->origin(), DiscardPile::class) && $move->cards()->count() > 0;
     }
 
     public function turnCard(DiscardPile $target) : Event

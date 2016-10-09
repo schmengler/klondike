@@ -82,17 +82,24 @@ class DsStockTest extends \PHPUnit_Framework_TestCase
     {
         $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids());
         $this->assertTrue(
-            $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids())), 'DiscardPile should be accepted'
+            $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids('incoming'))), 'DiscardPile should be accepted'
         );
         $this->assertFalse(
-            $stock->accepts(new DsMove($this->createMock(MoveOrigin::class), FakeCards::fromUuids())), 'Arbitrary MoveOrigin should not be accepted'
+            $stock->accepts(new DsMove($this->createMock(MoveOrigin::class), FakeCards::fromUuids('incoming'))), 'Arbitrary MoveOrigin should not be accepted'
         );
     }
     public function testAcceptMoveOnlyIfEmpty()
     {
         $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids('there', 'are', 'cards'));
         $this->assertFalse(
-            $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids())), 'DiscardPile should not be accepted if stock empty'
+            $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids('incoming'))), 'DiscardPile should not be accepted if stock empty'
+        );
+    }
+    public function testDoNotAcceptMoveFromEmptyDiscardPile()
+    {
+        $stock = new DsStock(new GameID('game-1'), FakePile::fromUuids());
+        $this->assertFalse(
+            $stock->accepts(new DsMove($this->createMock(DiscardPile::class), FakeCards::fromUuids())), 'DiscardPile should not be accepted if empty'
         );
     }
     public function testReceiveReturnsPileTurnedOverEvent()
