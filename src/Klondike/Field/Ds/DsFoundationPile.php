@@ -38,7 +38,7 @@ final class DsFoundationPile extends DsAbstractField implements FoundationPile
         }
         return $this->cardsMatch(
             $move->cards()->first()->value(),
-            $this->pile->all()->first()->value()
+            $this->pile->all()->last()->value()
         );
     }
 

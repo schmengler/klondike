@@ -155,6 +155,29 @@ class DsFoundationPileTest extends \PHPUnit_Framework_TestCase
                 ),
                 'should_accept' => false,
             ],
+            'H3_on_H2' => [
+                'cards_on_pile' => DsCards::fromCards(
+                    new DsCard(
+                        new CardID('H-A'),
+                        new CardValue(CardRank::ace(), CardSuit::hearts()),
+                        CardVisibility::faceUp()
+                    ),
+                    new DsCard(
+                        new CardID('H-2'),
+                        new CardValue(CardRank::number(2), CardSuit::hearts()),
+                        CardVisibility::faceUp()
+                    )
+                ),
+                'origin_class' => TableauPile::class,
+                'moved_cards' => DsCards::fromCards(
+                    new DsCard(
+                        new CardID('H-3'),
+                        new CardValue(CardRank::number(3), CardSuit::hearts()),
+                        CardVisibility::faceUp()
+                    )
+                ),
+                'should_accept' => true,
+            ],
             'H2_on_CA' => [
                 'cards_on_pile' => DsCards::fromCards(
                     new DsCard(
