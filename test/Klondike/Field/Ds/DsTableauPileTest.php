@@ -145,6 +145,14 @@ class DsTableauPileTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+    public function testPossibleMovesWithEmptyPile()
+    {
+        $this->tableauPile= new DsTableauPile($this->gameId, FakePile::fromUuids());
+        $tableau = $this->createMock(TableauPile::class);
+        $tableau->expects($this->never())->method('accepts');
+        $actualPossibleMoves = $this->tableauPile->possibleMoves($tableau);
+        $this->assertCount(0, $actualPossibleMoves);
+    }
     public function testPossibleMovesWithNonEmptyPile()
     {
         $this->tableauPile = new DsTableauPile(

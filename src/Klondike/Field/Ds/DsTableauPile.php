@@ -19,6 +19,9 @@ class DsTableauPile extends DsAbstractField implements TableauPile
 {
     public function possibleMoves(MoveTarget ...$availableTargets): Commands
     {
+        if ($this->pile->count() === 0) {
+            return DsCommands::fromCommands();
+        }
         if ($this->countVisibleCards() === 0 && $this->pile->count() > 0) {
             return DsCommands::fromCommands(
                 new TurnCard(
@@ -32,7 +35,7 @@ class DsTableauPile extends DsAbstractField implements TableauPile
         // OK this works but a nested loop would be more understandable...
         return DsCommands::fromCommands(...Collection::from($availableTargets)
             ->map(function(MoveTarget $target) {
-                return Collection::range(0, $this->countVisibleCards() - 1)
+                return Collection::range(1, $this->countVisibleCards())
                     ->zip(Collection::repeat($target));
             })
             ->flatten(1)
