@@ -97,6 +97,6 @@ final class DsStock implements Stock
         if ($this->pile->count() === 0) {
             return '';
         }
-        return \chr(27) . "[34m" .  '[X]' . \chr(27) . '[0m';
+        return \chr(27) . "[34;1m" .  '[]' . \chr(27) . '[0m';
     }
 }

@@ -1,14 +1,14 @@
 <?php
 namespace SSE\Klondike\Game;
 
-use DusanKasan\Knapsack\Exceptions\ItemNotFound;
+use SSE\Cards\Command;
+use SSE\Cards\Deck;
 use SSE\Cards\Game as GameInterface;
 use SSE\Cards\GameID;
 use SSE\Klondike\Field\DiscardPile;
 use SSE\Klondike\Field\FoundationPile;
 use SSE\Klondike\Field\Stock;
 use SSE\Klondike\Field\TableauPile;
-use SSE\Cards\Deck;
 
 class Game implements GameInterface
 {
@@ -48,11 +48,11 @@ class Game implements GameInterface
         $this->stock = new \SSE\Klondike\Field\Ds\DsStock(
             $gameId,
             new \SSE\Cards\Ds\DsPile(
-                new \SSE\Cards\PileID('Stack'),
+                new \SSE\Cards\PileID(chr(27) . '[35mStack' . chr(27) . '[0m'),
                 $startDeck->pile()->all()
             )
         );
-        $this->discardPile = new \SSE\Klondike\Field\Ds\DsDiscardPile($gameId, \SSE\Cards\Ds\DsPile::fromSingleCards(new \SSE\Cards\PileID('Discard Pile')));
+        $this->discardPile = new \SSE\Klondike\Field\Ds\DsDiscardPile($gameId, \SSE\Cards\Ds\DsPile::fromSingleCards(new \SSE\Cards\PileID(chr(27) . '[36mDiscard Pile' . chr(27) . '[0m')));
         $this->foundation = \DusanKasan\Knapsack\Collection::range(1, 4)
             ->map(function($n) {
                 return new \SSE\Klondike\Field\Ds\DsFoundationPile(
@@ -63,7 +63,7 @@ class Game implements GameInterface
             ->map(
                 function($n) {
                     return new \SSE\Klondike\Field\Ds\DsTableauPile(
-                        $this->id, new \SSE\Cards\Ds\DsPile(new \SSE\Cards\PileID('Tableau Pile ' . $n), $this->stock->deal($n))
+                        $this->id, new \SSE\Cards\Ds\DsPile(new \SSE\Cards\PileID(chr(27).'[33mTableau Pile ' . $n . chr(27) . '[0m'), $this->stock->deal($n))
                     );
                 }
             )->realize();
@@ -96,20 +96,16 @@ class Game implements GameInterface
     {
         echo "\n\nPossible Moves\n--------------\n";
         $targets = $this->allPiles->values()->toArray();
-        $moves = [];
-        $this->allPiles->values(
-        )->map(
-            function(\SSE\Cards\MoveOrigin $origin) use ($targets) {
-//        echo $origin->pileId() . "\n";
+        $this->allPiles->map(
+            function (\SSE\Cards\MoveOrigin $origin) use ($targets) {
+                echo $origin->pileId() . "\n";
                 return $origin->possibleMoves(...$targets);
             }
+        )->flatten(
+        )->values(
         )->each(
-            function(\SSE\Cards\Commands $commands) use (&$moves) {
-                foreach ($commands as $cmd) {
-                    $index = \count($moves);
-                    $moves[$index] = $cmd;
-                    echo  ($index + 1) . ". " . $cmd . "\n";
-                }
+            function(Command $cmd, $index) {
+                printf("%3d. %s\n", $index + 1, $cmd);
             }
         )->realize(
         );
@@ -118,12 +114,15 @@ class Game implements GameInterface
     public function chooseMove(int $moveId)
     {
         $targets = $this->allPiles->values()->toArray();
-        ($this->allPiles->values(
+        $move = $this->allPiles->values(
         )->map(
-            function(\SSE\Cards\MoveOrigin $origin) use ($targets) {
+            function (\SSE\Cards\MoveOrigin $origin) use ($targets) {
                 return $origin->possibleMoves(...$targets);
             }
-        )->flatten()->values()->get($moveId))();
+        )->flatten(
+        )->values(
+        )->get($moveId);
+        $move();
     }
 
 }

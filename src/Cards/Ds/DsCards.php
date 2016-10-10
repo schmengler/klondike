@@ -79,6 +79,6 @@ final class DsCards extends \IteratorIterator implements Cards
     // test
     public function __toString() : string
     {
-        return $this->getInnerIterator()->join(' ');
+        return $this->getInnerIterator()->join('');
     }
 }

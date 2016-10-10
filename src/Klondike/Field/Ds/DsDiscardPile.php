@@ -79,4 +79,9 @@ final class DsDiscardPile extends DsAbstractField implements DiscardPile
         return \is_a($move->origin(), Stock::class);
     }
 
+    public function __toString(): string
+    {
+        return $this->pile->top(1) . "";
+    }
+
 }
